@@ -181,25 +181,27 @@ class GradeCalculatorState extends State<GradeCalculator> {
                   date = g.isNotEmpty ? g.first.date : DateTime.now();
                 }
 
+                var gradeValue = GradeValue(newValue, "", "", newWeight);
+
                 calculatorProvider.addGhost(Grade(
-                  id: _randomId(),
-                  date: date,
-                  writeDate: date,
-                  description: "Ghost Grade".i18n,
-                  value: GradeValue(newValue, "", "", newWeight),
-                  teacher: Teacher.fromString("Ghost"),
-                  type: GradeType.ghost,
-                  form: "",
-                  subject: widget.subject ??
-                      GradeSubject(
-                        id: _randomId(),
-                        category: Category(id: _randomId()),
-                        name: 'All',
-                      ),
-                  mode: Category.fromJson({}),
-                  seenDate: DateTime(0),
-                  groupId: "",
-                ));
+                    id: _randomId(),
+                    date: date,
+                    writeDate: date,
+                    description: "Ghost Grade".i18n,
+                    value: gradeValue,
+                    teacher: Teacher.fromString("Ghost"),
+                    type: GradeType.ghost,
+                    form: "",
+                    subject: widget.subject ??
+                        GradeSubject(
+                          id: _randomId(),
+                          category: Category(id: _randomId()),
+                          name: 'All',
+                        ),
+                    mode: Category.fromJson({}),
+                    seenDate: DateTime(0),
+                    groupId: "",
+                    rarity: gradeValue.getRarity()));
               },
               child: Text(
                 "Add Grade".i18n,

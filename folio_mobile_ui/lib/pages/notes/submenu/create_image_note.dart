@@ -6,7 +6,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_crop_plus/image_crop_plus.dart';
+import 'package:crop_your_image/crop_your_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:folio/api/providers/database_provider.dart';
@@ -28,30 +28,22 @@ class ImageNoteEditor extends StatefulWidget {
 
 class _ImageNoteEditorState extends State<ImageNoteEditor> {
   final _title = TextEditingController();
+  final CropController _controller = CropController();
 
-  final cropKey = GlobalKey<CropState>();
   File? _file;
-  File? _sample;
-  File? _lastCropped;
+  Uint8List? _imageData;
 
-  File? image;
-  Future pickImage() async {
+  Future<void> pickImage() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-      File imageFile = File(image.path);
+      final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (picked == null) return;
 
-      final sample = await ImageCrop.sampleImage(
-        file: imageFile,
-        preferredSize: context.size!.longestSide.ceil(),
-      );
-
-      _sample?.delete();
-      _file?.delete();
+      final file = File(picked.path);
+      final bytes = await file.readAsBytes();
 
       setState(() {
-        _sample = sample;
-        _file = imageFile;
+        _file = file;
+        _imageData = bytes;
       });
     } on PlatformException catch (e) {
       log('Failed to pick image: $e');
@@ -61,10 +53,11 @@ class _ImageNoteEditorState extends State<ImageNoteEditor> {
   Widget cropImageWidget() {
     return SizedBox(
       height: 300,
-      child: Crop.file(
-        _sample!,
-        key: cropKey,
-        // aspectRatio: 1.0,
+      child: Crop(
+        image: _imageData!,
+        controller: _controller,
+        // no aspectRatio → free crop like your original
+        onCropped: _onCropped,
       ),
     );
   }
@@ -74,7 +67,7 @@ class _ImageNoteEditorState extends State<ImageNoteEditor> {
       customBorder: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14.0),
       ),
-      onTap: () => pickImage(),
+      onTap: pickImage,
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),
@@ -91,43 +84,19 @@ class _ImageNoteEditorState extends State<ImageNoteEditor> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            Text(
-              "select_image".i18n,
-              style: const TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.w500,
-              ),
-            )
+            Text("select_image".i18n),
           ],
         ),
       ),
     );
   }
 
-  Future<void> _cropImage() async {
-    final scale = cropKey.currentState!.scale;
-    final area = cropKey.currentState!.area;
-    if (area == null || _file == null) {
-      return;
-    }
+  void _cropImage() {
+    _controller.crop(); // triggers _onCropped
+  }
 
-    final sample = await ImageCrop.sampleImage(
-      file: _file!,
-      preferredSize: (2000 / scale).round(),
-    );
-
-    final file = await ImageCrop.cropImage(
-      file: sample,
-      area: area,
-    );
-
-    sample.delete();
-
-    _lastCropped?.delete();
-    _lastCropped = file;
-
-    List<int> imageBytes = await _lastCropped!.readAsBytes();
-    String base64Image = base64Encode(imageBytes);
+  Future<void> _onCropped(Uint8List croppedData) async {
+    final base64Image = base64Encode(croppedData);
 
     List<SelfNote> selfNotes =
         await Provider.of<DatabaseProvider>(context, listen: false)
@@ -148,22 +117,22 @@ class _ImageNoteEditorState extends State<ImageNoteEditor> {
     Provider.of<SelfNoteProvider>(context, listen: false).restore();
     Provider.of<SelfNoteProvider>(context, listen: false).restoreTodo();
 
-    debugPrint('$file');
+    Navigator.of(context).pop(true);
   }
 
   @override
   void dispose() {
+    _title.dispose();
+    _file = null; // no temp files anymore
     super.dispose();
-    _file?.delete();
-    _sample?.delete();
-    _lastCropped?.delete();
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(14.0))),
+        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+      ),
       contentPadding: const EdgeInsets.only(top: 10.0),
       title: Text("new_image".i18n),
       content: Column(
@@ -172,76 +141,36 @@ class _ImageNoteEditorState extends State<ImageNoteEditor> {
           Padding(
             padding:
                 const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-            child: _sample == null ? openImageWidget() : cropImageWidget(),
+            child: _imageData == null ? openImageWidget() : cropImageWidget(),
           ),
           Padding(
             padding:
                 const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
             child: TextField(
               controller: _title,
-              onEditingComplete: () async {},
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.grey, width: 1.5),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.grey, width: 1.5),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
                 hintText: 'title'.i18n,
                 suffixIcon: IconButton(
-                  icon: const Icon(
-                    Icons.close_rounded,
-                    color: Colors.grey,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _title.text = '';
-                    });
-                  },
+                  icon: const Icon(Icons.close_rounded),
+                  onPressed: () => setState(() => _title.clear()),
                 ),
               ),
             ),
           ),
-          // if (widget.u.picture != "")
-          //   TextButton(
-          //     child: Text(
-          //       "remove_profile_picture".i18n,
-          //       style: const TextStyle(
-          //           fontWeight: FontWeight.w500, color: Colors.red),
-          //     ),
-          //     onPressed: () {
-          //       widget.u.picture = "";
-          //       Provider.of<DatabaseProvider>(context, listen: false)
-          //           .store
-          //           .storeUser(widget.u);
-          //       Provider.of<UserProvider>(context, listen: false).refresh();
-          //       Navigator.of(context).pop(true);
-          //     },
-          //   ),
         ],
       ),
       actions: [
         TextButton(
-          child: Text(
-            "cancel".i18n,
-            style: const TextStyle(fontWeight: FontWeight.w500),
-          ),
-          onPressed: () {
-            Navigator.of(context).maybePop();
-          },
+          child: Text("cancel".i18n),
+          onPressed: () => Navigator.of(context).maybePop(),
         ),
         TextButton(
-          child: Text(
-            "next".i18n,
-            style: const TextStyle(fontWeight: FontWeight.w500),
-          ),
-          onPressed: () async {
-            await _cropImage();
-            Navigator.of(context).pop(true);
-          },
+          child: Text("next".i18n),
+          onPressed: _cropImage,
         ),
       ],
     );

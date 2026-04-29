@@ -13,7 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:folio_mobile_ui/screens/settings/settings_screen.i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image_crop_plus/image_crop_plus.dart';
+import 'package:crop_your_image/crop_your_image.dart';
 
 // ignore: must_be_immutable
 class UserMenuProfilePic extends StatelessWidget {
@@ -52,29 +52,22 @@ class UserProfilePicEditor extends StatefulWidget {
 class _UserProfilePicEditorState extends State<UserProfilePicEditor> {
   late final UserProvider user;
 
-  final cropKey = GlobalKey<CropState>();
+  final CropController _controller = CropController();
+
   File? _file;
-  File? _sample;
-  File? _lastCropped;
+  Uint8List? _imageData;
 
-  File? image;
-  Future pickImage() async {
+  Future<void> pickImage() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-      File imageFile = File(image.path);
+      final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (picked == null) return;
 
-      final sample = await ImageCrop.sampleImage(
-        file: imageFile,
-        preferredSize: context.size!.longestSide.ceil(),
-      );
-
-      _sample?.delete();
-      _file?.delete();
+      final file = File(picked.path);
+      final bytes = await file.readAsBytes();
 
       setState(() {
-        _sample = sample;
-        _file = imageFile;
+        _file = file;
+        _imageData = bytes;
       });
     } on PlatformException catch (e) {
       log('Failed to pick image: $e');
@@ -84,10 +77,11 @@ class _UserProfilePicEditorState extends State<UserProfilePicEditor> {
   Widget cropImageWidget() {
     return SizedBox(
       height: 300,
-      child: Crop.file(
-        _sample!,
-        key: cropKey,
+      child: Crop(
+        image: _imageData!,
+        controller: _controller,
         aspectRatio: 1.0,
+        onCropped: _onCropped,
       ),
     );
   }
@@ -97,7 +91,7 @@ class _UserProfilePicEditorState extends State<UserProfilePicEditor> {
       customBorder: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14.0),
       ),
-      onTap: () => pickImage(),
+      onTap: pickImage,
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),
@@ -116,48 +110,29 @@ class _UserProfilePicEditorState extends State<UserProfilePicEditor> {
             ),
             Text(
               "select_profile_picture".i18n,
-              style: const TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.w500,
-              ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
-  Future<void> _cropImage() async {
-    final scale = cropKey.currentState!.scale;
-    final area = cropKey.currentState!.area;
-    if (area == null || _file == null) {
-      return;
-    }
+  void _cropImage() {
+    _controller.crop(); // triggers onCropped
+  }
 
-    final sample = await ImageCrop.sampleImage(
-      file: _file!,
-      preferredSize: (2000 / scale).round(),
-    );
+  void _onCropped(Uint8List croppedData) async {
+    final base64Image = base64Encode(croppedData);
 
-    final file = await ImageCrop.cropImage(
-      file: sample,
-      area: area,
-    );
-
-    sample.delete();
-
-    _lastCropped?.delete();
-    _lastCropped = file;
-
-    List<int> imageBytes = await _lastCropped!.readAsBytes();
-    String base64Image = base64Encode(imageBytes);
     widget.u.picture = base64Image;
+
     Provider.of<DatabaseProvider>(context, listen: false)
         .store
         .storeUser(widget.u);
+
     Provider.of<UserProvider>(context, listen: false).refresh();
 
-    debugPrint('$file');
+    debugPrint('Image cropped and saved');
   }
 
   @override
@@ -168,17 +143,16 @@ class _UserProfilePicEditorState extends State<UserProfilePicEditor> {
 
   @override
   void dispose() {
+    _file = null; // no temp files to delete anymore
     super.dispose();
-    _file?.delete();
-    _sample?.delete();
-    _lastCropped?.delete();
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(14.0))),
+        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+      ),
       contentPadding: const EdgeInsets.only(top: 10.0),
       title: Text("edit_profile_picture".i18n),
       content: Column(
@@ -187,14 +161,16 @@ class _UserProfilePicEditorState extends State<UserProfilePicEditor> {
           Padding(
             padding:
                 const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-            child: _sample == null ? openImageWidget() : cropImageWidget(),
+            child: _imageData == null ? openImageWidget() : cropImageWidget(),
           ),
           if (widget.u.picture != "")
             TextButton(
               child: Text(
                 "remove_profile_picture".i18n,
                 style: const TextStyle(
-                    fontWeight: FontWeight.w500, color: Colors.red),
+                  fontWeight: FontWeight.w500,
+                  color: Colors.red,
+                ),
               ),
               onPressed: () {
                 widget.u.picture = "";
@@ -209,21 +185,13 @@ class _UserProfilePicEditorState extends State<UserProfilePicEditor> {
       ),
       actions: [
         TextButton(
-          child: Text(
-            "cancel".i18n,
-            style: const TextStyle(fontWeight: FontWeight.w500),
-          ),
-          onPressed: () {
-            Navigator.of(context).maybePop();
-          },
+          child: Text("cancel".i18n),
+          onPressed: () => Navigator.of(context).maybePop(),
         ),
         TextButton(
-          child: Text(
-            "done".i18n,
-            style: const TextStyle(fontWeight: FontWeight.w500),
-          ),
-          onPressed: () async {
-            await _cropImage();
+          child: Text("done".i18n),
+          onPressed: () {
+            _cropImage();
             Navigator.of(context).pop(true);
           },
         ),

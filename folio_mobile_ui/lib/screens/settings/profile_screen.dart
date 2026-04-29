@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart' as tabs;
-import 'package:image_crop_plus/image_crop_plus.dart';
+import 'package:crop_your_image/crop_your_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -76,9 +76,7 @@ class ProfileScreenState extends State<ProfileScreen>
   }
 
   void _onTabChanged() {
-    if (_tabController.index == 1 &&
-        _contactData == null &&
-        !_contactLoading) {
+    if (_tabController.index == 1 && _contactData == null && !_contactLoading) {
       _loadContactAndCerts();
     }
   }
@@ -151,7 +149,8 @@ class ProfileScreenState extends State<ProfileScreen>
         Provider.of<ExamProvider>(context, listen: false).restore(),
         Provider.of<HomeworkProvider>(context, listen: false).restore(),
         Provider.of<MessageProvider>(context, listen: false).restore(),
-        Provider.of<MessageProvider>(context, listen: false).restoreRecipients(),
+        Provider.of<MessageProvider>(context, listen: false)
+            .restoreRecipients(),
         Provider.of<NoteProvider>(context, listen: false).restore(),
         Provider.of<EventProvider>(context, listen: false).restore(),
         Provider.of<AbsenceProvider>(context, listen: false).restore(),
@@ -178,9 +177,8 @@ class ProfileScreenState extends State<ProfileScreen>
     showRoundedModalBottomSheet(
       context,
       child: _ContactBottomSheet(
-        initialEmail: _contactData?["Email"] as String? ??
-            user.student?.email ??
-            "",
+        initialEmail:
+            _contactData?["Email"] as String? ?? user.student?.email ?? "",
         initialPhone: _contactData?["Telefonszam"] as String? ??
             user.student?.phone ??
             "",
@@ -222,8 +220,7 @@ class ProfileScreenState extends State<ProfileScreen>
           );
           // Refresh student data
           if (user.user != null && iss.isNotEmpty) {
-            final studentJson =
-                await kretaClient.getAPI(KretaAPI.student(iss));
+            final studentJson = await kretaClient.getAPI(KretaAPI.student(iss));
             if (studentJson != null) {
               user.user!.student =
                   Student.fromJson(Map.from(studentJson as Map));
@@ -289,8 +286,8 @@ class ProfileScreenState extends State<ProfileScreen>
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
           title: Text('oopsie'.i18n),
           content: Text('session_expired'.i18n),
           actions: [
@@ -304,8 +301,7 @@ class ProfileScreenState extends State<ProfileScreen>
                     .removeUser(userId);
                 if (user.getUsers().isNotEmpty) {
                   user.setUser(user.getUsers().first.id);
-                  restore()
-                      .then((_) => user.setUser(user.getUsers().first.id));
+                  restore().then((_) => user.setUser(user.getUsers().first.id));
                   Navigator.of(context).pop();
                   Navigator.of(context).pushNamed("login_back");
                 } else {
@@ -339,9 +335,8 @@ class ProfileScreenState extends State<ProfileScreen>
     final String firstName = settings.presentationMode
         ? "János"
         : (nameParts.length > 1 ? nameParts[1] : nameParts[0]);
-    final String displayName = settings.presentationMode
-        ? "Teszt János"
-        : (user.displayName ?? "?");
+    final String displayName =
+        settings.presentationMode ? "Teszt János" : (user.displayName ?? "?");
     final String username =
         settings.presentationMode ? "01234567890" : (user.name ?? "");
 
@@ -353,8 +348,8 @@ class ProfileScreenState extends State<ProfileScreen>
           Container(
             decoration: BoxDecoration(
               color: colorScheme.primaryContainer,
-              borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(28.0)),
+              borderRadius:
+                  const BorderRadius.vertical(bottom: Radius.circular(28.0)),
             ),
             child: SafeArea(
               bottom: false,
@@ -362,8 +357,7 @@ class ProfileScreenState extends State<ProfileScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding:
-                        const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 0.0),
+                    padding: const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 0.0),
                     child: Row(
                       children: [
                         GestureDetector(
@@ -412,15 +406,13 @@ class ProfileScreenState extends State<ProfileScreen>
                       indicatorPadding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 6.0),
                       indicator: BoxDecoration(
-                        color:
-                            colorScheme.secondary.withValues(alpha: 0.15),
+                        color: colorScheme.secondary.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(14.0),
                       ),
                       overlayColor: WidgetStateProperty.all(
                         colorScheme.secondary.withValues(alpha: 0.08),
                       ),
-                      padding: const EdgeInsets.fromLTRB(
-                          12.0, 8.0, 12.0, 14.0),
+                      padding: const EdgeInsets.fromLTRB(12.0, 8.0, 12.0, 14.0),
                       tabs: [
                         Tab(text: "profile".i18n),
                         Tab(text: "your_data".i18n),
@@ -544,8 +536,8 @@ class ProfileScreenState extends State<ProfileScreen>
 
           // Edit panel: profile pic + nickname + DKT
           SplittedPanel(
-            padding: const EdgeInsets.only(
-                bottom: 0.0, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(bottom: 0.0, left: 24.0, right: 24.0),
             cardPadding: const EdgeInsets.all(4.0),
             children: [
               PanelButton(
@@ -563,8 +555,7 @@ class ProfileScreenState extends State<ProfileScreen>
                   color: AppColors.of(context).text.withValues(alpha: 0.3),
                 ),
                 borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(12.0),
-                    bottom: Radius.circular(4.0)),
+                    top: Radius.circular(12.0), bottom: Radius.circular(4.0)),
               ),
               PanelButton(
                 padding: const EdgeInsets.only(left: 14.0, right: 6.0),
@@ -581,8 +572,7 @@ class ProfileScreenState extends State<ProfileScreen>
                   color: AppColors.of(context).text.withValues(alpha: 0.3),
                 ),
                 borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(4.0),
-                    bottom: Radius.circular(4.0)),
+                    top: Radius.circular(4.0), bottom: Radius.circular(4.0)),
               ),
               PanelButton(
                 padding: const EdgeInsets.only(left: 14.0, right: 6.0),
@@ -599,8 +589,7 @@ class ProfileScreenState extends State<ProfileScreen>
                   color: AppColors.of(context).text.withValues(alpha: 0.3),
                 ),
                 borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(4.0),
-                    bottom: Radius.circular(12.0)),
+                    top: Radius.circular(4.0), bottom: Radius.circular(12.0)),
               ),
             ],
           ),
@@ -693,13 +682,13 @@ class ProfileScreenState extends State<ProfileScreen>
           // ── Personal info ──
           _sectionHeader(context, "personal_info".i18n),
           SplittedPanel(
-            padding: const EdgeInsets.only(
-                bottom: 0.0, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(bottom: 0.0, left: 24.0, right: 24.0),
             cardPadding: const EdgeInsets.all(4.0),
             children: [
               for (int i = 0; i < personalItems.length; i++)
-                _buildInfoButton(context, personalItems[i], i,
-                    personalItems.length),
+                _buildInfoButton(
+                    context, personalItems[i], i, personalItems.length),
             ],
           ),
 
@@ -721,9 +710,8 @@ class ProfileScreenState extends State<ProfileScreen>
             context,
             "bank_account".i18n,
             actionLabel: "edit".i18n,
-            onAction: student.bankAccountReadOnly == true
-                ? null
-                : _editBankAccount,
+            onAction:
+                student.bankAccountReadOnly == true ? null : _editBankAccount,
           ),
           _buildBankAccountSection(context, colorScheme, student),
 
@@ -739,8 +727,7 @@ class ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Widget _buildContactSection(
-      BuildContext context, ColorScheme colorScheme) {
+  Widget _buildContactSection(BuildContext context, ColorScheme colorScheme) {
     if (_contactLoading) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
@@ -751,14 +738,12 @@ class ProfileScreenState extends State<ProfileScreen>
       );
     }
 
-    final String email = _contactData?["Email"] as String? ??
-        user.student?.email ??
-        "";
+    final String email =
+        _contactData?["Email"] as String? ?? user.student?.email ?? "";
     final bool emailVerified =
         _contactData?["IsEmailMegerositve"] as bool? ?? false;
-    final String phone = _contactData?["Telefonszam"] as String? ??
-        user.student?.phone ??
-        "";
+    final String phone =
+        _contactData?["Telefonszam"] as String? ?? user.student?.phone ?? "";
 
     final List<_InfoItem> items = [
       if (email.isNotEmpty)
@@ -787,8 +772,7 @@ class ProfileScreenState extends State<ProfileScreen>
     }
 
     return SplittedPanel(
-      padding:
-          const EdgeInsets.only(bottom: 0.0, left: 24.0, right: 24.0),
+      padding: const EdgeInsets.only(bottom: 0.0, left: 24.0, right: 24.0),
       cardPadding: const EdgeInsets.all(4.0),
       children: [
         for (int i = 0; i < items.length; i++)
@@ -805,8 +789,7 @@ class ProfileScreenState extends State<ProfileScreen>
 
     if (accountNum == null || accountNum.isEmpty) {
       return Padding(
-        padding:
-            const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
         child: Text("no_bank_account".i18n,
             style: TextStyle(
                 color: colorScheme.onSurface.withValues(alpha: 0.35),
@@ -830,8 +813,7 @@ class ProfileScreenState extends State<ProfileScreen>
     ];
 
     return SplittedPanel(
-      padding:
-          const EdgeInsets.only(bottom: 0.0, left: 24.0, right: 24.0),
+      padding: const EdgeInsets.only(bottom: 0.0, left: 24.0, right: 24.0),
       cardPadding: const EdgeInsets.all(4.0),
       children: [
         for (int i = 0; i < items.length; i++)
@@ -874,8 +856,7 @@ class ProfileScreenState extends State<ProfileScreen>
     }
 
     return SplittedPanel(
-      padding:
-          const EdgeInsets.only(bottom: 0.0, left: 24.0, right: 24.0),
+      padding: const EdgeInsets.only(bottom: 0.0, left: 24.0, right: 24.0),
       cardPadding: const EdgeInsets.all(4.0),
       children: [
         for (int i = 0; i < certs.length; i++)
@@ -884,10 +865,9 @@ class ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Widget _buildCertButton(BuildContext context, DigitalCertification cert,
-      int index, int total) {
-    final String title =
-        cert.name ?? cert.schoolYear ?? "cert_issued".i18n;
+  Widget _buildCertButton(
+      BuildContext context, DigitalCertification cert, int index, int total) {
+    final String title = cert.name ?? cert.schoolYear ?? "cert_issued".i18n;
     final String subtitle = [
       if (cert.typeName != null) cert.typeName!,
       if (cert.schoolYear != null && cert.name != null) cert.schoolYear!,
@@ -962,19 +942,17 @@ class ProfileScreenState extends State<ProfileScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 8.0),
-
           _sectionHeader(context, "account".i18n),
           SplittedPanel(
-            padding: const EdgeInsets.only(
-                bottom: 0.0, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(bottom: 0.0, left: 24.0, right: 24.0),
             cardPadding: const EdgeInsets.all(4.0),
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12.0),
                 child: AccountTile(
                   name: Text(displayName,
-                      style:
-                          const TextStyle(fontWeight: FontWeight.w600)),
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
                   username: Text(username),
                   profileImage: ProfileImage(
                     name: firstName,
@@ -987,51 +965,42 @@ class ProfileScreenState extends State<ProfileScreen>
               ),
             ],
           ),
-
           if (otherAccounts.isNotEmpty) ...[
             const SizedBox(height: 4.0),
             _sectionHeader(context, "switch_account".i18n),
             SplittedPanel(
-              padding: const EdgeInsets.only(
-                  bottom: 0.0, left: 24.0, right: 24.0),
+              padding:
+                  const EdgeInsets.only(bottom: 0.0, left: 24.0, right: 24.0),
               cardPadding: const EdgeInsets.all(4.0),
               children: [
                 for (int i = 0; i < otherAccounts.length; i++)
-                  _buildOtherAccountItem(context, colorScheme,
-                      otherAccounts[i], i, otherAccounts.length),
+                  _buildOtherAccountItem(context, colorScheme, otherAccounts[i],
+                      i, otherAccounts.length),
               ],
             ),
           ],
-
           const SizedBox(height: 4.0),
-
           SplittedPanel(
-            padding: const EdgeInsets.only(
-                bottom: 0.0, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(bottom: 0.0, left: 24.0, right: 24.0),
             cardPadding: const EdgeInsets.all(4.0),
             children: [
               PanelButton(
                 padding: const EdgeInsets.only(left: 14.0, right: 6.0),
-                onPressed: () =>
-                    Navigator.of(context).pushNamed("login_back"),
+                onPressed: () => Navigator.of(context).pushNamed("login_back"),
                 leading: Icon(
                   Icons.person_add_rounded,
                   size: 22.0,
-                  color: AppColors.of(context)
-                      .text
-                      .withValues(alpha: 0.85),
+                  color: AppColors.of(context).text.withValues(alpha: 0.85),
                 ),
                 title: Text("add_user".i18n),
                 trailing: Icon(
                   Icons.chevron_right_rounded,
                   size: 20.0,
-                  color: AppColors.of(context)
-                      .text
-                      .withValues(alpha: 0.3),
+                  color: AppColors.of(context).text.withValues(alpha: 0.3),
                 ),
                 borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(12.0),
-                    bottom: Radius.circular(4.0)),
+                    top: Radius.circular(12.0), bottom: Radius.circular(4.0)),
               ),
               PanelButton(
                 padding: const EdgeInsets.only(left: 14.0, right: 6.0),
@@ -1041,8 +1010,8 @@ class ProfileScreenState extends State<ProfileScreen>
                   final isDemo = user.isDemo;
                   final hasOtherUsers = user.getUsers().length > 1;
                   if (!hasOtherUsers) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        "login", (_) => false);
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil("login", (_) => false);
                     user.removeUser(userId);
                     if (!isDemo) {
                       await Provider.of<DatabaseProvider>(context,
@@ -1053,14 +1022,13 @@ class ProfileScreenState extends State<ProfileScreen>
                     return;
                   }
                   user.removeUser(userId);
-                  await Provider.of<DatabaseProvider>(context,
-                          listen: false)
+                  await Provider.of<DatabaseProvider>(context, listen: false)
                       .store
                       .removeUser(userId);
                   if (user.getUsers().isNotEmpty) {
                     user.setUser(user.getUsers().first.id);
-                    restore().then(
-                        (_) => user.setUser(user.getUsers().first.id));
+                    restore()
+                        .then((_) => user.setUser(user.getUsers().first.id));
                   }
                 },
                 leading: Icon(
@@ -1073,24 +1041,20 @@ class ProfileScreenState extends State<ProfileScreen>
                   style: TextStyle(color: colorScheme.error),
                 ),
                 borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(4.0),
-                    bottom: Radius.circular(12.0)),
+                    top: Radius.circular(4.0), bottom: Radius.circular(12.0)),
               ),
             ],
           ),
-
           SizedBox(height: MediaQuery.of(context).padding.bottom + 24.0),
         ],
       ),
     );
   }
 
-  Widget _buildOtherAccountItem(BuildContext context,
-      ColorScheme colorScheme, User account, int index, int total) {
+  Widget _buildOtherAccountItem(BuildContext context, ColorScheme colorScheme,
+      User account, int index, int total) {
     final List<String> nameParts =
-        (account.nickname.isNotEmpty
-                ? account.nickname
-                : account.displayName)
+        (account.nickname.isNotEmpty ? account.nickname : account.displayName)
             .split(" ");
     final String firstName = settings.presentationMode
         ? "János"
@@ -1102,9 +1066,7 @@ class ProfileScreenState extends State<ProfileScreen>
         name: Text(
           settings.presentationMode
               ? "János"
-              : (account.nickname.isNotEmpty
-                  ? account.nickname
-                  : account.name),
+              : (account.nickname.isNotEmpty ? account.nickname : account.name),
           style: const TextStyle(fontWeight: FontWeight.w500),
         ),
         username: Text(
@@ -1126,8 +1088,7 @@ class ProfileScreenState extends State<ProfileScreen>
 
   Widget _sectionHeader(BuildContext context, String label) {
     return Padding(
-      padding:
-          const EdgeInsets.only(top: 10.0, bottom: 6.0, left: 28.0),
+      padding: const EdgeInsets.only(top: 10.0, bottom: 6.0, left: 28.0),
       child: Row(
         children: [
           Container(
@@ -1145,10 +1106,8 @@ class ProfileScreenState extends State<ProfileScreen>
               fontSize: 13.0,
               fontWeight: FontWeight.w800,
               letterSpacing: 1.2,
-              color: Theme.of(context)
-                  .colorScheme
-                  .primary
-                  .withValues(alpha: 0.8),
+              color:
+                  Theme.of(context).colorScheme.primary.withValues(alpha: 0.8),
             ),
           ),
         ],
@@ -1163,8 +1122,8 @@ class ProfileScreenState extends State<ProfileScreen>
     VoidCallback? onAction,
   }) {
     return Padding(
-      padding:
-          const EdgeInsets.only(top: 10.0, bottom: 6.0, left: 28.0, right: 28.0),
+      padding: const EdgeInsets.only(
+          top: 10.0, bottom: 6.0, left: 28.0, right: 28.0),
       child: Row(
         children: [
           Container(
@@ -1243,7 +1202,8 @@ class ProfileScreenState extends State<ProfileScreen>
               style: TextStyle(
                 fontSize: 11.0,
                 fontWeight: FontWeight.w500,
-                color: Theme.of(context).colorScheme.error.withValues(alpha: 0.8),
+                color:
+                    Theme.of(context).colorScheme.error.withValues(alpha: 0.8),
               ),
             ),
         ],
@@ -1322,8 +1282,8 @@ class _NicknameBottomSheetState extends State<_NicknameBottomSheet> {
             padding: const EdgeInsets.only(bottom: 16.0),
             child: Text(
               "edit_nickname".i18n,
-              style: const TextStyle(
-                  fontSize: 17.0, fontWeight: FontWeight.w700),
+              style:
+                  const TextStyle(fontSize: 17.0, fontWeight: FontWeight.w700),
             ),
           ),
           TextField(
@@ -1335,9 +1295,7 @@ class _NicknameBottomSheetState extends State<_NicknameBottomSheet> {
                 borderSide: BorderSide.none,
               ),
               filled: true,
-              fillColor: Theme.of(context)
-                  .colorScheme
-                  .surfaceContainerHigh,
+              fillColor: Theme.of(context).colorScheme.surfaceContainerHigh,
               hintText: widget.u.name,
               suffixIcon: IconButton(
                 icon: const Icon(Icons.close_rounded, size: 18.0),
@@ -1351,8 +1309,7 @@ class _NicknameBottomSheetState extends State<_NicknameBottomSheet> {
             children: [
               TextButton(
                 child: Text("cancel".i18n,
-                    style:
-                        const TextStyle(fontWeight: FontWeight.w500)),
+                    style: const TextStyle(fontWeight: FontWeight.w500)),
                 onPressed: () => Navigator.of(context).maybePop(),
               ),
               const SizedBox(width: 8.0),
@@ -1363,8 +1320,7 @@ class _NicknameBottomSheetState extends State<_NicknameBottomSheet> {
                   Provider.of<DatabaseProvider>(context, listen: false)
                       .store
                       .storeUser(widget.u);
-                  Provider.of<UserProvider>(context, listen: false)
-                      .refresh();
+                  Provider.of<UserProvider>(context, listen: false).refresh();
                   Navigator.of(context).pop(true);
                 },
               ),
@@ -1428,8 +1384,8 @@ class _ContactBottomSheetState extends State<_ContactBottomSheet> {
             padding: const EdgeInsets.only(bottom: 16.0),
             child: Text(
               "edit_contact".i18n,
-              style: const TextStyle(
-                  fontSize: 17.0, fontWeight: FontWeight.w700),
+              style:
+                  const TextStyle(fontSize: 17.0, fontWeight: FontWeight.w700),
             ),
           ),
           TextField(
@@ -1441,8 +1397,7 @@ class _ContactBottomSheetState extends State<_ContactBottomSheet> {
                 borderSide: BorderSide.none,
               ),
               filled: true,
-              fillColor:
-                  Theme.of(context).colorScheme.surfaceContainerHigh,
+              fillColor: Theme.of(context).colorScheme.surfaceContainerHigh,
               labelText: "email".i18n,
             ),
           ),
@@ -1456,8 +1411,7 @@ class _ContactBottomSheetState extends State<_ContactBottomSheet> {
                 borderSide: BorderSide.none,
               ),
               filled: true,
-              fillColor:
-                  Theme.of(context).colorScheme.surfaceContainerHigh,
+              fillColor: Theme.of(context).colorScheme.surfaceContainerHigh,
               labelText: "phone".i18n,
             ),
           ),
@@ -1467,8 +1421,7 @@ class _ContactBottomSheetState extends State<_ContactBottomSheet> {
             children: [
               TextButton(
                 child: Text("cancel".i18n,
-                    style:
-                        const TextStyle(fontWeight: FontWeight.w500)),
+                    style: const TextStyle(fontWeight: FontWeight.w500)),
                 onPressed: () => Navigator.of(context).maybePop(),
               ),
               const SizedBox(width: 8.0),
@@ -1524,8 +1477,7 @@ class _BankAccountBottomSheet extends StatefulWidget {
       _BankAccountBottomSheetState();
 }
 
-class _BankAccountBottomSheetState
-    extends State<_BankAccountBottomSheet> {
+class _BankAccountBottomSheetState extends State<_BankAccountBottomSheet> {
   late final TextEditingController _numberCtrl;
   late final TextEditingController _ownerCtrl;
   bool _saving = false;
@@ -1564,8 +1516,8 @@ class _BankAccountBottomSheetState
             padding: const EdgeInsets.only(bottom: 16.0),
             child: Text(
               "edit_bank_account".i18n,
-              style: const TextStyle(
-                  fontSize: 17.0, fontWeight: FontWeight.w700),
+              style:
+                  const TextStyle(fontSize: 17.0, fontWeight: FontWeight.w700),
             ),
           ),
           TextField(
@@ -1623,8 +1575,7 @@ class _BankAccountBottomSheetState
               const Spacer(),
               TextButton(
                 child: Text("cancel".i18n,
-                    style:
-                        const TextStyle(fontWeight: FontWeight.w500)),
+                    style: const TextStyle(fontWeight: FontWeight.w500)),
                 onPressed: () => Navigator.of(context).maybePop(),
               ),
               const SizedBox(width: 8.0),
@@ -1665,66 +1616,45 @@ class _ProfilePicBottomSheet extends StatefulWidget {
   final User u;
 
   @override
-  State<_ProfilePicBottomSheet> createState() =>
-      _ProfilePicBottomSheetState();
+  State<_ProfilePicBottomSheet> createState() => _ProfilePicBottomSheetState();
 }
 
 class _ProfilePicBottomSheetState extends State<_ProfilePicBottomSheet> {
-  final cropKey = GlobalKey<CropState>();
+  final CropController _controller = CropController();
+
   File? _file;
-  File? _sample;
-  File? _lastCropped;
+  Uint8List? _imageData;
 
   Future<void> _pickImage() async {
     try {
-      final picked =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
+      final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (picked == null) return;
-      final imageFile = File(picked.path);
-      final sample = await ImageCrop.sampleImage(
-        file: imageFile,
-        preferredSize: MediaQuery.of(context).size.longestSide.ceil(),
-      );
-      _sample?.delete();
-      _file?.delete();
+
+      final file = File(picked.path);
+      final bytes = await file.readAsBytes();
+
       setState(() {
-        _sample = sample;
-        _file = imageFile;
+        _file = file;
+        _imageData = bytes;
       });
     } on PlatformException catch (e) {
       log('Failed to pick image: $e');
     }
   }
 
-  Future<void> _cropAndSave() async {
-    final scale = cropKey.currentState!.scale;
-    final area = cropKey.currentState!.area;
-    if (area == null || _file == null) return;
+  void _cropAndSave() {
+    _controller.crop();
+  }
 
-    final sample = await ImageCrop.sampleImage(
-      file: _file!,
-      preferredSize: (2000 / scale).round(),
-    );
+  void _onCropped(Uint8List croppedData) async {
+    widget.u.picture = base64Encode(croppedData);
 
-    final cropped = await ImageCrop.cropImage(
-      file: sample,
-      area: area,
-    );
-
-    _lastCropped?.delete();
-    _sample?.delete();
-
-    setState(() {
-      _sample = sample;
-      _lastCropped = cropped;
-    });
-
-    final bytes = await cropped.readAsBytes();
-    widget.u.picture = base64Encode(bytes);
     Provider.of<DatabaseProvider>(context, listen: false)
         .store
         .storeUser(widget.u);
+
     Provider.of<UserProvider>(context, listen: false).refresh();
+
     Navigator.of(context).pop(true);
   }
 
@@ -1745,17 +1675,18 @@ class _ProfilePicBottomSheetState extends State<_ProfilePicBottomSheet> {
             padding: const EdgeInsets.only(bottom: 16.0),
             child: Text(
               "select_profile_picture".i18n,
-              style: const TextStyle(
-                  fontSize: 17.0, fontWeight: FontWeight.w700),
+              style:
+                  const TextStyle(fontSize: 17.0, fontWeight: FontWeight.w700),
             ),
           ),
-          if (_sample != null) ...[
+          if (_imageData != null) ...[
             SizedBox(
-              height: 280.0,
+              height: 280,
               child: Crop(
-                key: cropKey,
-                image: FileImage(_sample!),
+                image: _imageData!,
+                controller: _controller,
                 aspectRatio: 1.0,
+                onCropped: _onCropped,
               ),
             ),
           ] else ...[
@@ -1765,9 +1696,7 @@ class _ProfilePicBottomSheetState extends State<_ProfilePicBottomSheet> {
                 height: 240.0,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .surfaceContainerHigh,
+                  color: Theme.of(context).colorScheme.surfaceContainerHigh,
                   borderRadius: BorderRadius.circular(16.0),
                 ),
                 child: Column(
@@ -1776,22 +1705,10 @@ class _ProfilePicBottomSheetState extends State<_ProfilePicBottomSheet> {
                     Icon(
                       Icons.add_photo_alternate_rounded,
                       size: 48.0,
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withValues(alpha: 0.3),
                     ),
                     const SizedBox(height: 12.0),
                     Text(
                       "select_profile_picture".i18n,
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withValues(alpha: 0.45),
-                      ),
                     ),
                   ],
                 ),
@@ -1804,29 +1721,28 @@ class _ProfilePicBottomSheetState extends State<_ProfilePicBottomSheet> {
             children: [
               if (widget.u.picture.isNotEmpty)
                 TextButton(
-                  child: Text("remove_profile_picture".i18n,
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
-                          fontWeight: FontWeight.w500)),
+                  child: Text(
+                    "remove_profile_picture".i18n,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
                   onPressed: () {
                     widget.u.picture = "";
                     Provider.of<DatabaseProvider>(context, listen: false)
                         .store
                         .storeUser(widget.u);
-                    Provider.of<UserProvider>(context, listen: false)
-                        .refresh();
+                    Provider.of<UserProvider>(context, listen: false).refresh();
                     Navigator.of(context).pop(true);
                   },
                 ),
               const Spacer(),
               TextButton(
-                child: Text("cancel".i18n,
-                    style:
-                        const TextStyle(fontWeight: FontWeight.w500)),
+                child: Text("cancel".i18n),
                 onPressed: () => Navigator.of(context).maybePop(),
               ),
               const SizedBox(width: 8.0),
-              if (_sample == null)
+              if (_imageData == null)
                 FilledButton(
                   onPressed: _pickImage,
                   child: Text("select_profile_picture".i18n),

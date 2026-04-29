@@ -21,6 +21,7 @@ class Grade {
   DateTime writeDate;
   DateTime seenDate;
   String form;
+  String rarity;
 
   Grade({
     required this.id,
@@ -36,24 +37,27 @@ class Grade {
     required this.writeDate,
     required this.seenDate,
     required this.form,
+    required this.rarity,
     this.json,
   });
 
   factory Grade.fromJson(Map json) {
+    var gradeValue = GradeValue(
+      json["SzamErtek"] ?? 0,
+      json["SzovegesErtek"] ?? "",
+      json["SzovegesErtekelesRovidNev"] ?? "",
+      json["SulySzazalekErteke"] ?? 0,
+      percentage: json["ErtekFajta"] != null
+          ? json["ErtekFajta"]["Uid"] == "3,Szazalekos"
+          : false,
+    );
+
     return Grade(
       id: json["Uid"] ?? "",
       date: json["KeszitesDatuma"] != null
           ? DateTime.parse(json["KeszitesDatuma"]).toLocal()
           : DateTime(0),
-      value: GradeValue(
-        json["SzamErtek"] ?? 0,
-        json["SzovegesErtek"] ?? "",
-        json["SzovegesErtekelesRovidNev"] ?? "",
-        json["SulySzazalekErteke"] ?? 0,
-        percentage: json["ErtekFajta"] != null
-            ? json["ErtekFajta"]["Uid"] == "3,Szazalekos"
-            : false,
-      ),
+      value: gradeValue,
       teacher: Teacher.fromString((json["ErtekeloTanarNeve"] ?? "").trim()),
       description: json["Tema"] ?? "",
       type: json["Tipus"] != null
@@ -71,22 +75,24 @@ class Grade {
       seenDate: json["LattamozasDatuma"] != null
           ? DateTime.parse(json["LattamozasDatuma"]).toLocal()
           : DateTime(0),
+      rarity: gradeValue.getRarity(),
       form: (json["Jelleg"] ?? "Na") != "Na" ? json["Jelleg"] : "",
       json: json,
     );
   }
 
   factory Grade.fromExportJson(Map json) {
+    var gradeValue = GradeValue(
+      json["value"] ?? 0,
+      json["value_name"] ?? "",
+      json["value_name"] ?? "",
+      json["weight"] ?? 0,
+      percentage: false,
+    );
     return Grade(
       id: const Uuid().v4(),
       date: json["date"] != null ? DateTime.parse(json["date"]) : DateTime(0),
-      value: GradeValue(
-        json["value"] ?? 0,
-        json["value_name"] ?? "",
-        json["value_name"] ?? "",
-        json["weight"] ?? 0,
-        percentage: false,
-      ),
+      value: gradeValue,
       teacher: Teacher.fromString((json["teacher"] ?? "").trim()),
       description: json["description"] ?? "",
       type: json["type"] != null
@@ -105,6 +111,7 @@ class Grade {
           json["date"] != null ? DateTime.parse(json["date"]) : DateTime(0),
       seenDate:
           json["date"] != null ? DateTime.parse(json["date"]) : DateTime(0),
+      rarity: gradeValue.getRarity(),
       form: "",
       json: json,
     );
@@ -177,6 +184,23 @@ class GradeValue {
         _valueName = valueName,
         _weight = weight,
         _percentage = percentage;
+
+  String getRarity() {
+    switch (value) {
+      case 5:
+        return "legendary";
+      case 4:
+        return "epic";
+      case 3:
+        return "rare";
+      case 2:
+        return "uncommon";
+      case 1:
+        return "common";
+      default:
+        return "legendary";
+    }
+  }
 }
 
 enum GradeType {

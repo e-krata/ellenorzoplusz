@@ -20,12 +20,15 @@ class DemoData {
   );
   static final _subjectHun = GradeSubject(
     id: 'demo-subject-hun',
-    category: Category(id: 'magyar_nyelv_es_irodalom', name: 'magyar_nyelv_es_irodalom'),
+    category: Category(
+        id: 'magyar_nyelv_es_irodalom', name: 'magyar_nyelv_es_irodalom'),
     name: 'Magyar nyelv és irodalom',
   );
   static final _subjectHist = GradeSubject(
     id: 'demo-subject-hist',
-    category: Category(id: 'tortenelem_es_allampolgari_ismeretek', name: 'tortenelem_es_allampolgari_ismeretek'),
+    category: Category(
+        id: 'tortenelem_es_allampolgari_ismeretek',
+        name: 'tortenelem_es_allampolgari_ismeretek'),
     name: 'Történelem',
   );
   static final _subjectEng = GradeSubject(
@@ -40,7 +43,8 @@ class DemoData {
   );
   static final _subjectBio = GradeSubject(
     id: 'demo-subject-bio',
-    category: Category(id: 'biologia_egeszsegtan', name: 'biologia_egeszsegtan'),
+    category:
+        Category(id: 'biologia_egeszsegtan', name: 'biologia_egeszsegtan'),
     name: 'Biológia',
   );
   static final _subjectChem = GradeSubject(
@@ -50,7 +54,8 @@ class DemoData {
   );
   static final _subjectPE = GradeSubject(
     id: 'demo-subject-pe',
-    category: Category(id: 'testnevelés_és_sport', name: 'testnevelés_és_sport'),
+    category:
+        Category(id: 'testnevelés_és_sport', name: 'testnevelés_és_sport'),
     name: 'Testnevelés',
   );
   static final _subjectIT = GradeSubject(
@@ -66,28 +71,200 @@ class DemoData {
   static final _teacherVarga = Teacher.fromString('Varga Erzsébet');
   static final _teacherFekete = Teacher.fromString('Fekete Gábor');
 
-  static final _modeOral = Category(id: '1,SzobaliVizsga', name: 'Szóbeli vizsga', description: 'Szóbeli vizsga');
-  static final _modeWritten = Category(id: '2,IrasbaliVizsga', name: 'Írásbeli vizsga', description: 'Írásbeli vizsga');
-  static final _modePractical = Category(id: '3,Gyakorlati', name: 'Gyakorlati', description: 'Gyakorlati');
+  static final _modeOral = Category(
+      id: '1,SzobaliVizsga',
+      name: 'Szóbeli vizsga',
+      description: 'Szóbeli vizsga');
+  static final _modeWritten = Category(
+      id: '2,IrasbaliVizsga',
+      name: 'Írásbeli vizsga',
+      description: 'Írásbeli vizsga');
+  static final _modePractical = Category(
+      id: '3,Gyakorlati', name: 'Gyakorlati', description: 'Gyakorlati');
 
   static List<Grade> get grades {
     final now = DateTime.now();
     return [
-      _makeGrade('demo-g-1', 5, 'Jeles', 'Ötös', 100, _subjectMath, _teacherNagy, 'Függvények', now.subtract(const Duration(days: 3)), _modeWritten, GradeType.midYear),
-      _makeGrade('demo-g-2', 4, 'Jó', 'Négyes', 100, _subjectMath, _teacherNagy, 'Egyenletek', now.subtract(const Duration(days: 14)), _modeWritten, GradeType.midYear),
-      _makeGrade('demo-g-3', 5, 'Jeles', 'Ötös', 100, _subjectHun, _teacherKovacs, 'Arany János költészete', now.subtract(const Duration(days: 5)), _modeOral, GradeType.midYear),
-      _makeGrade('demo-g-4', 4, 'Jó', 'Négyes', 100, _subjectHun, _teacherKovacs, 'Fogalmazás', now.subtract(const Duration(days: 20)), _modeWritten, GradeType.midYear),
-      _makeGrade('demo-g-5', 5, 'Jeles', 'Ötös', 100, _subjectEng, _teacherSzabo, 'Grammar test', now.subtract(const Duration(days: 7)), _modeWritten, GradeType.midYear),
-      _makeGrade('demo-g-6', 5, 'Jeles', 'Ötös', 100, _subjectEng, _teacherSzabo, 'Speaking', now.subtract(const Duration(days: 18)), _modeOral, GradeType.midYear),
-      _makeGrade('demo-g-7', 4, 'Jó', 'Négyes', 100, _subjectHist, _teacherToth, 'Az első világháború', now.subtract(const Duration(days: 10)), _modeOral, GradeType.midYear),
-      _makeGrade('demo-g-8', 3, 'Közepes', 'Hármas', 100, _subjectHist, _teacherToth, 'Témazáró', now.subtract(const Duration(days: 25)), _modeWritten, GradeType.midYear),
-      _makeGrade('demo-g-9', 5, 'Jeles', 'Ötös', 100, _subjectPhy, _teacherVarga, 'Mechanika', now.subtract(const Duration(days: 8)), _modeWritten, GradeType.midYear),
-      _makeGrade('demo-g-10', 4, 'Jó', 'Négyes', 100, _subjectBio, _teacherFekete, 'Sejtbiológia', now.subtract(const Duration(days: 12)), _modeOral, GradeType.midYear),
-      _makeGrade('demo-g-11', 5, 'Jeles', 'Ötös', 100, _subjectChem, _teacherVarga, 'Kémiai kötések', now.subtract(const Duration(days: 6)), _modeWritten, GradeType.midYear),
-      _makeGrade('demo-g-12', 5, 'Jeles', 'Ötös', 100, _subjectIT, _teacherSzabo, 'Programozás alapjai', now.subtract(const Duration(days: 4)), _modePractical, GradeType.midYear),
-      _makeGrade('demo-g-13', 4, 'Jó', 'Négyes', 100, _subjectMath, _teacherNagy, 'Statisztika', now.subtract(const Duration(days: 30)), _modeWritten, GradeType.halfYear),
-      _makeGrade('demo-g-14', 5, 'Jeles', 'Ötös', 100, _subjectHun, _teacherKovacs, 'Félévzáró', now.subtract(const Duration(days: 60)), _modeWritten, GradeType.halfYear),
-      _makeGrade('demo-g-15', 4, 'Jó', 'Négyes', 100, _subjectEng, _teacherSzabo, 'Mid-year exam', now.subtract(const Duration(days: 60)), _modeWritten, GradeType.halfYear),
+      _makeGrade(
+          'demo-g-1',
+          5,
+          'Jeles',
+          'Ötös',
+          100,
+          _subjectMath,
+          _teacherNagy,
+          'Függvények',
+          now.subtract(const Duration(days: 3)),
+          _modeWritten,
+          GradeType.midYear),
+      _makeGrade(
+          'demo-g-2',
+          4,
+          'Jó',
+          'Négyes',
+          100,
+          _subjectMath,
+          _teacherNagy,
+          'Egyenletek',
+          now.subtract(const Duration(days: 14)),
+          _modeWritten,
+          GradeType.midYear),
+      _makeGrade(
+          'demo-g-3',
+          5,
+          'Jeles',
+          'Ötös',
+          100,
+          _subjectHun,
+          _teacherKovacs,
+          'Arany János költészete',
+          now.subtract(const Duration(days: 5)),
+          _modeOral,
+          GradeType.midYear),
+      _makeGrade(
+          'demo-g-4',
+          4,
+          'Jó',
+          'Négyes',
+          100,
+          _subjectHun,
+          _teacherKovacs,
+          'Fogalmazás',
+          now.subtract(const Duration(days: 20)),
+          _modeWritten,
+          GradeType.midYear),
+      _makeGrade(
+          'demo-g-5',
+          5,
+          'Jeles',
+          'Ötös',
+          100,
+          _subjectEng,
+          _teacherSzabo,
+          'Grammar test',
+          now.subtract(const Duration(days: 7)),
+          _modeWritten,
+          GradeType.midYear),
+      _makeGrade(
+          'demo-g-6',
+          5,
+          'Jeles',
+          'Ötös',
+          100,
+          _subjectEng,
+          _teacherSzabo,
+          'Speaking',
+          now.subtract(const Duration(days: 18)),
+          _modeOral,
+          GradeType.midYear),
+      _makeGrade(
+          'demo-g-7',
+          4,
+          'Jó',
+          'Négyes',
+          100,
+          _subjectHist,
+          _teacherToth,
+          'Az első világháború',
+          now.subtract(const Duration(days: 10)),
+          _modeOral,
+          GradeType.midYear),
+      _makeGrade(
+          'demo-g-8',
+          3,
+          'Közepes',
+          'Hármas',
+          100,
+          _subjectHist,
+          _teacherToth,
+          'Témazáró',
+          now.subtract(const Duration(days: 25)),
+          _modeWritten,
+          GradeType.midYear),
+      _makeGrade(
+          'demo-g-9',
+          5,
+          'Jeles',
+          'Ötös',
+          100,
+          _subjectPhy,
+          _teacherVarga,
+          'Mechanika',
+          now.subtract(const Duration(days: 8)),
+          _modeWritten,
+          GradeType.midYear),
+      _makeGrade(
+          'demo-g-10',
+          4,
+          'Jó',
+          'Négyes',
+          100,
+          _subjectBio,
+          _teacherFekete,
+          'Sejtbiológia',
+          now.subtract(const Duration(days: 12)),
+          _modeOral,
+          GradeType.midYear),
+      _makeGrade(
+          'demo-g-11',
+          5,
+          'Jeles',
+          'Ötös',
+          100,
+          _subjectChem,
+          _teacherVarga,
+          'Kémiai kötések',
+          now.subtract(const Duration(days: 6)),
+          _modeWritten,
+          GradeType.midYear),
+      _makeGrade(
+          'demo-g-12',
+          5,
+          'Jeles',
+          'Ötös',
+          100,
+          _subjectIT,
+          _teacherSzabo,
+          'Programozás alapjai',
+          now.subtract(const Duration(days: 4)),
+          _modePractical,
+          GradeType.midYear),
+      _makeGrade(
+          'demo-g-13',
+          4,
+          'Jó',
+          'Négyes',
+          100,
+          _subjectMath,
+          _teacherNagy,
+          'Statisztika',
+          now.subtract(const Duration(days: 30)),
+          _modeWritten,
+          GradeType.halfYear),
+      _makeGrade(
+          'demo-g-14',
+          5,
+          'Jeles',
+          'Ötös',
+          100,
+          _subjectHun,
+          _teacherKovacs,
+          'Félévzáró',
+          now.subtract(const Duration(days: 60)),
+          _modeWritten,
+          GradeType.halfYear),
+      _makeGrade(
+          'demo-g-15',
+          4,
+          'Jó',
+          'Négyes',
+          100,
+          _subjectEng,
+          _teacherSzabo,
+          'Mid-year exam',
+          now.subtract(const Duration(days: 60)),
+          _modeWritten,
+          GradeType.halfYear),
     ];
   }
 
@@ -104,27 +281,29 @@ class DemoData {
     Category mode,
     GradeType type,
   ) {
+    var gradeValue = GradeValue(value, valueName, shortName, weight);
+
     return Grade(
-      id: id,
-      date: date,
-      value: GradeValue(value, valueName, shortName, weight),
-      teacher: teacher,
-      description: description,
-      type: type,
-      groupId: 'demo-group',
-      subject: subject,
-      mode: mode,
-      writeDate: date,
-      seenDate: date,
-      form: '',
-      json: {
-        'SzamErtek': value,
-        'SzovegesErtek': valueName,
-        'SzovegesErtekelesRovidNev': shortName,
-        'SulySzazalekErteke': weight,
-        'ErtekFajta': null,
-      },
-    );
+        id: id,
+        date: date,
+        value: gradeValue,
+        teacher: teacher,
+        description: description,
+        type: type,
+        groupId: 'demo-group',
+        subject: subject,
+        mode: mode,
+        writeDate: date,
+        seenDate: date,
+        form: '',
+        json: {
+          'SzamErtek': value,
+          'SzovegesErtek': valueName,
+          'SzovegesErtekelesRovidNev': shortName,
+          'SulySzazalekErteke': weight,
+          'ErtekFajta': null,
+        },
+        rarity: gradeValue.getRarity());
   }
 
   static Map<Week, List<Lesson>> get timetable {
@@ -139,7 +318,8 @@ class DemoData {
     // Monday
     lessons.addAll(_dayLessons(monday, [
       _LessonDef('Matematika', _subjectMath, _teacherNagy, '101', '9A'),
-      _LessonDef('Magyar nyelv és irodalom', _subjectHun, _teacherKovacs, '203', '9A'),
+      _LessonDef(
+          'Magyar nyelv és irodalom', _subjectHun, _teacherKovacs, '203', '9A'),
       _LessonDef('Történelem', _subjectHist, _teacherToth, '105', '9A'),
       _LessonDef('Angol nyelv', _subjectEng, _teacherSzabo, '102', '9A'),
       _LessonDef('Testnevelés', _subjectPE, _teacherFekete, 'Tornaterem', '9A'),
@@ -150,12 +330,14 @@ class DemoData {
       _LessonDef('Fizika', _subjectPhy, _teacherVarga, '204', '9A'),
       _LessonDef('Biológia', _subjectBio, _teacherFekete, '205', '9A'),
       _LessonDef('Matematika', _subjectMath, _teacherNagy, '101', '9A'),
-      _LessonDef('Informatika', _subjectIT, _teacherSzabo, 'Számítóterem', '9A'),
+      _LessonDef(
+          'Informatika', _subjectIT, _teacherSzabo, 'Számítóterem', '9A'),
     ]));
 
     // Wednesday
     lessons.addAll(_dayLessons(monday.add(const Duration(days: 2)), [
-      _LessonDef('Magyar nyelv és irodalom', _subjectHun, _teacherKovacs, '203', '9A'),
+      _LessonDef(
+          'Magyar nyelv és irodalom', _subjectHun, _teacherKovacs, '203', '9A'),
       _LessonDef('Kémia', _subjectChem, _teacherVarga, '206', '9A'),
       _LessonDef('Angol nyelv', _subjectEng, _teacherSzabo, '102', '9A'),
       _LessonDef('Történelem', _subjectHist, _teacherToth, '105', '9A'),
@@ -167,12 +349,14 @@ class DemoData {
       _LessonDef('Matematika', _subjectMath, _teacherNagy, '101', '9A'),
       _LessonDef('Biológia', _subjectBio, _teacherFekete, '205', '9A'),
       _LessonDef('Fizika', _subjectPhy, _teacherVarga, '204', '9A'),
-      _LessonDef('Informatika', _subjectIT, _teacherSzabo, 'Számítóterem', '9A'),
+      _LessonDef(
+          'Informatika', _subjectIT, _teacherSzabo, 'Számítóterem', '9A'),
     ]));
 
     // Friday
     lessons.addAll(_dayLessons(monday.add(const Duration(days: 4)), [
-      _LessonDef('Magyar nyelv és irodalom', _subjectHun, _teacherKovacs, '203', '9A'),
+      _LessonDef(
+          'Magyar nyelv és irodalom', _subjectHun, _teacherKovacs, '203', '9A'),
       _LessonDef('Kémia', _subjectChem, _teacherVarga, '206', '9A'),
       _LessonDef('Matematika', _subjectMath, _teacherNagy, '101', '9A'),
       _LessonDef('Angol nyelv', _subjectEng, _teacherSzabo, '102', '9A'),
@@ -211,12 +395,18 @@ class DemoData {
   static List<Absence> get absences {
     final now = DateTime.now();
     return [
-      _makeAbsence('demo-abs-1', _subjectMath, _teacherNagy, now.subtract(const Duration(days: 15)), Justification.excused),
-      _makeAbsence('demo-abs-2', _subjectMath, _teacherNagy, now.subtract(const Duration(days: 15)), Justification.excused),
-      _makeAbsence('demo-abs-3', _subjectHun, _teacherKovacs, now.subtract(const Duration(days: 15)), Justification.excused),
-      _makeAbsence('demo-abs-4', _subjectEng, _teacherSzabo, now.subtract(const Duration(days: 8)), Justification.pending),
-      _makeAbsence('demo-abs-5', _subjectHist, _teacherToth, now.subtract(const Duration(days: 8)), Justification.pending),
-      _makeAbsence('demo-abs-6', _subjectPhy, _teacherVarga, now.subtract(const Duration(days: 2)), Justification.unexcused),
+      _makeAbsence('demo-abs-1', _subjectMath, _teacherNagy,
+          now.subtract(const Duration(days: 15)), Justification.excused),
+      _makeAbsence('demo-abs-2', _subjectMath, _teacherNagy,
+          now.subtract(const Duration(days: 15)), Justification.excused),
+      _makeAbsence('demo-abs-3', _subjectHun, _teacherKovacs,
+          now.subtract(const Duration(days: 15)), Justification.excused),
+      _makeAbsence('demo-abs-4', _subjectEng, _teacherSzabo,
+          now.subtract(const Duration(days: 8)), Justification.pending),
+      _makeAbsence('demo-abs-5', _subjectHist, _teacherToth,
+          now.subtract(const Duration(days: 8)), Justification.pending),
+      _makeAbsence('demo-abs-6', _subjectPhy, _teacherVarga,
+          now.subtract(const Duration(days: 2)), Justification.unexcused),
     ];
   }
 
@@ -287,7 +477,8 @@ class DemoData {
         byTeacher: true,
         homeworkEnabled: true,
         teacher: _teacherNagy,
-        content: 'Oldjátok meg a tankönyv 84-85. oldalán lévő feladatokat (1-15).',
+        content:
+            'Oldjátok meg a tankönyv 84-85. oldalán lévő feladatokat (1-15).',
         subject: _subjectMath,
         group: 'demo-group',
         attachments: [],
@@ -300,7 +491,8 @@ class DemoData {
         byTeacher: true,
         homeworkEnabled: true,
         teacher: _teacherKovacs,
-        content: 'Írjatok egy 1-2 oldalas elemzést Petőfi Sándor "Szeptember végén" c. verséről.',
+        content:
+            'Írjatok egy 1-2 oldalas elemzést Petőfi Sándor "Szeptember végén" c. verséről.',
         subject: _subjectHun,
         group: 'demo-group',
         attachments: [],
@@ -331,7 +523,8 @@ class DemoData {
         deleted: false,
         date: now.subtract(const Duration(days: 1)),
         author: 'Nagy Katalin',
-        content: 'Kedves Szülők!\n\nTájékoztatjuk Önöket, hogy jövő héten pótdolgozatot írunk matematikából. Kérem, segítsenek gyermeküknek a felkészülésben.\n\nÜdvözlettel,\nNagy Katalin',
+        content:
+            'Kedves Szülők!\n\nTájékoztatjuk Önöket, hogy jövő héten pótdolgozatot írunk matematikából. Kérem, segítsenek gyermeküknek a felkészülésben.\n\nÜdvözlettel,\nNagy Katalin',
         subject: 'Pótdolgozat - Matematika',
         type: MessageType.inbox,
         recipients: [Recipient(id: 1, name: 'Demo Diák', kretaId: 1)],
@@ -345,7 +538,8 @@ class DemoData {
         deleted: false,
         date: now.subtract(const Duration(days: 3)),
         author: 'Kovács Mária',
-        content: 'Kedves Diákok!\n\nEmlékeztetem Önöket, hogy a fogalmazást péntekig be kell adni. Kérem, ne felejtsék el!\n\nÜdvözlettel,\nKovács Mária',
+        content:
+            'Kedves Diákok!\n\nEmlékeztetem Önöket, hogy a fogalmazást péntekig be kell adni. Kérem, ne felejtsék el!\n\nÜdvözlettel,\nKovács Mária',
         subject: 'Fogalmazás határideje',
         type: MessageType.inbox,
         recipients: [Recipient(id: 1, name: 'Demo Diák', kretaId: 1)],
@@ -359,7 +553,8 @@ class DemoData {
         deleted: false,
         date: now.subtract(const Duration(days: 7)),
         author: 'Tóth László',
-        content: 'Kedves Szülők!\n\nAz osztálykirándulás időpontja: március 20. Kérem, hogy a beleegyező nyilatkozatot hozzák vissza aláírva.\n\nÜdvözlettel,\nTóth László\nosztályfőnök',
+        content:
+            'Kedves Szülők!\n\nAz osztálykirándulás időpontja: március 20. Kérem, hogy a beleegyező nyilatkozatot hozzák vissza aláírva.\n\nÜdvözlettel,\nTóth László\nosztályfőnök',
         subject: 'Osztálykirándulás',
         type: MessageType.inbox,
         recipients: [Recipient(id: 1, name: 'Demo Diák', kretaId: 1)],
@@ -390,5 +585,6 @@ class _LessonDef {
   final Teacher teacher;
   final String room;
   final String group;
-  const _LessonDef(this.name, this.subject, this.teacher, this.room, this.group);
+  const _LessonDef(
+      this.name, this.subject, this.teacher, this.room, this.group);
 }

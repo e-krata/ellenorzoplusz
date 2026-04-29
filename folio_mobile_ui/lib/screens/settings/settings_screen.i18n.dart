@@ -1,8 +1,7 @@
 import 'package:i18n_extension/i18n_extension.dart';
 
 extension SettingsLocalization on String {
-  static final _t =
-      Translations.byLocale("hu-HU") +
+  static final _t = Translations.byLocale("hu-HU") +
       {
         "en-US": {
           "heads_up": "Heads up!",
@@ -227,10 +226,14 @@ extension SettingsLocalization on String {
           "notification_messages": "Messages",
           "notification_lessons": "Lessons",
           "firebase_reg_title": "Firebase Registration",
-          "firebase_reg_registered": "Device is registered and the FCM token is up to date.",
-          "firebase_reg_not_registered": "Device is not registered for push notifications.",
-          "firebase_reg_token_mismatch": "Registered, but FCM token has changed. Will update on next launch.",
-          "firebase_reg_no_token": "Could not retrieve FCM token from Firebase.",
+          "firebase_reg_registered":
+              "Device is registered and the FCM token is up to date.",
+          "firebase_reg_not_registered":
+              "Device is not registered for push notifications.",
+          "firebase_reg_token_mismatch":
+              "Registered, but FCM token has changed. Will update on next launch.",
+          "firebase_reg_no_token":
+              "Could not retrieve FCM token from Firebase.",
           "firebase_checking": "Checking registration status...",
           "countdown_enabled": "Countdown",
           "countdown_before_lesson": "Countdown before lessons",
@@ -247,6 +250,13 @@ extension SettingsLocalization on String {
           "navbar_slots": "%s / %s navbar slots used",
           "navbar_more_fixed": "Always shown as last item",
           "more_empty": "All pages are in the navbar",
+          "rarity_title": "Rarity Text",
+          // default rarities
+          "common": "Common",
+          "uncommon": "Uncommon",
+          "rare": "Rare",
+          "epic": "Epic",
+          "legendary": "Legendary",
         },
         "hu-HU": {
           "heads_up": "Figyelem!",
@@ -470,10 +480,14 @@ extension SettingsLocalization on String {
           "notification_messages": "Üzenetek",
           "notification_lessons": "Órák",
           "firebase_reg_title": "Firebase regisztráció",
-          "firebase_reg_registered": "Az eszköz sikeresen regisztrálva van, és az FCM token naprakész.",
-          "firebase_reg_not_registered": "Az eszköz nincs regisztrálva push értesítésekre.",
-          "firebase_reg_token_mismatch": "Regisztrálva van, de az FCM token megváltozott. Az indításkor frissül.",
-          "firebase_reg_no_token": "Nem sikerült lekérni az FCM tokent a Firebase-től.",
+          "firebase_reg_registered":
+              "Az eszköz sikeresen regisztrálva van, és az FCM token naprakész.",
+          "firebase_reg_not_registered":
+              "Az eszköz nincs regisztrálva push értesítésekre.",
+          "firebase_reg_token_mismatch":
+              "Regisztrálva van, de az FCM token megváltozott. Az indításkor frissül.",
+          "firebase_reg_no_token":
+              "Nem sikerült lekérni az FCM tokent a Firebase-től.",
           "firebase_checking": "Regisztráció ellenőrzése...",
           "countdown_enabled": "Visszaszámlálás",
           "countdown_before_lesson": "Visszaszámlálás tanórák előtt",
@@ -493,6 +507,13 @@ extension SettingsLocalization on String {
           "navbar_slots": "%s / %s navbar hely foglalt",
           "navbar_more_fixed": "Mindig az utolsó helyen jelenik meg",
           "more_empty": "Minden oldal a navbaron van",
+          "rarity_title": "Ritkaság szövege",
+          // default rarities
+          "common": "Gyakori",
+          "uncommon": "Nem gyakori",
+          "rare": "Ritka",
+          "epic": "Epikus",
+          "legendary": "Legendás",
         },
         "de-DE": {
           "heads_up": "Achtung!",
@@ -736,11 +757,22 @@ extension SettingsLocalization on String {
           "notification_messages": "Nachrichten",
           "notification_lessons": "Unterricht",
           "firebase_reg_title": "Firebase-Registrierung",
-          "firebase_reg_registered": "Gerät ist registriert und der FCM-Token ist aktuell.",
-          "firebase_reg_not_registered": "Gerät ist nicht für Push-Benachrichtigungen registriert.",
-          "firebase_reg_token_mismatch": "Registriert, aber FCM-Token hat sich geändert. Wird beim nächsten Start aktualisiert.",
-          "firebase_reg_no_token": "FCM-Token konnte nicht von Firebase abgerufen werden.",
+          "firebase_reg_registered":
+              "Gerät ist registriert und der FCM-Token ist aktuell.",
+          "firebase_reg_not_registered":
+              "Gerät ist nicht für Push-Benachrichtigungen registriert.",
+          "firebase_reg_token_mismatch":
+              "Registriert, aber FCM-Token hat sich geändert. Wird beim nächsten Start aktualisiert.",
+          "firebase_reg_no_token":
+              "FCM-Token konnte nicht von Firebase abgerufen werden.",
           "firebase_checking": "Registrierung wird überprüft...",
+          "rarity_title": "Text zur Seltenheit",
+          // default rarities
+          "common": "Gemeinsam",
+          "uncommon": "Gelegentlich",
+          "rare": "Selten",
+          "epic": "Episch",
+          "legendary": "Legendär",
         },
       };
 

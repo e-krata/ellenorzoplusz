@@ -1036,7 +1036,13 @@ class GradeRarityTextSetting extends StatefulWidget {
 
 class _GradeRarityTextSettingState extends State<GradeRarityTextSetting> {
   late List<TextEditingController> _controllers;
-  final List<String> _keys = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
+  final List<String> _keys = [
+    'common',
+    'uncommon',
+    'rare',
+    'epic',
+    'legendary'
+  ];
 
   @override
   void initState() {
@@ -1081,16 +1087,18 @@ class _GradeRarityTextSettingState extends State<GradeRarityTextSetting> {
             style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 12.0),
-          ...List.generate(_controllers.length, (i) => Padding(
-            padding: const EdgeInsets.only(bottom: 10.0),
-            child: TextField(
-              controller: _controllers[i],
-              decoration: InputDecoration(
-                labelText: _keys[i],
-                border: const OutlineInputBorder(),
-              ),
-            ),
-          )),
+          ...List.generate(
+              _controllers.length,
+              (i) => Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: TextField(
+                      controller: _controllers[i],
+                      decoration: InputDecoration(
+                        labelText: SettingsLocalization(_keys[i]).i18n,
+                        border: const OutlineInputBorder(),
+                      ),
+                    ),
+                  )),
           const SizedBox(height: 8.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -1102,13 +1110,18 @@ class _GradeRarityTextSettingState extends State<GradeRarityTextSetting> {
               const SizedBox(width: 8.0),
               FilledButton(
                 onPressed: () async {
-                  final db = Provider.of<DatabaseProvider>(context, listen: false);
-                  final user = Provider.of<UserProvider>(context, listen: false);
+                  final db =
+                      Provider.of<DatabaseProvider>(context, listen: false);
+                  final user =
+                      Provider.of<UserProvider>(context, listen: false);
                   final Map<String, String> rarities = {};
-                  for (int i = 0; i < _keys.length && i < _controllers.length; i++) {
+                  for (int i = 0;
+                      i < _keys.length && i < _controllers.length;
+                      i++) {
                     rarities[_keys[i]] = _controllers[i].text;
                   }
-                  await db.userStore.storeGradeRarities(rarities, userId: user.id!);
+                  await db.userStore
+                      .storeGradeRarities(rarities, userId: user.id!);
                   Navigator.of(context).maybePop();
                 },
                 child: Text(widget.done),

@@ -524,8 +524,7 @@ class SettingsScreenState extends State<SettingsScreen>
     return Container(
       margin: const EdgeInsets.only(left: 10.0),
       decoration: BoxDecoration(
-        color:
-            Theme.of(context).colorScheme.secondary.withValues(alpha: 0.06),
+        color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(4.0),
       ),
       child: child,
@@ -1131,63 +1130,64 @@ class SettingsScreenState extends State<SettingsScreen>
               padding: const EdgeInsets.only(left: 14.0, right: 6.0),
               onPressed: () {
                 SettingsHelper.bellDelay(context);
-                  setState(() {});
+                setState(() {});
+              },
+              title: Text("bell_delay".i18n,
+                  style: TextStyle(
+                      color: AppColors.of(context).text.withValues(
+                          alpha: settings.bellDelayEnabled ? .95 : .25))),
+              leading: Icon(
+                settings.bellDelayEnabled
+                    ? Icons.notifications_outlined
+                    : Icons.notifications_off_rounded,
+                size: 22.0,
+                color: AppColors.of(context)
+                    .text
+                    .withValues(alpha: settings.bellDelayEnabled ? .95 : .25),
+              ),
+              trailingDivider: true,
+              trailing: Switch(
+                onChanged: (v) {
+                  _haptic();
+                  settings.update(bellDelayEnabled: v);
                 },
-                title: Text("bell_delay".i18n,
-                    style: TextStyle(
-                        color: AppColors.of(context).text.withValues(
-                            alpha: settings.bellDelayEnabled ? .95 : .25))),
-                leading: Icon(
-                  settings.bellDelayEnabled
-                      ? Icons.notifications_outlined
-                      : Icons.notifications_off_rounded,
+                value: settings.bellDelayEnabled,
+                activeColor: Theme.of(context).colorScheme.secondary,
+              ),
+              borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(12.0), bottom: Radius.circular(4.0)),
+            ),
+            PanelButton(
+              padding: const EdgeInsets.only(left: 14.0, right: 6.0),
+              onPressed: () {
+                settings.update(showBreaks: !settings.showBreaks);
+                setState(() {});
+              },
+              title: Text("show_breaks".i18n,
+                  style: TextStyle(
+                      color: AppColors.of(context)
+                          .text
+                          .withValues(alpha: settings.showBreaks ? .95 : .25))),
+              leading: Icon(
+                  settings.showBreaks
+                      ? Icons.visibility_rounded
+                      : Icons.visibility_off_rounded,
                   size: 22.0,
                   color: AppColors.of(context)
                       .text
-                      .withValues(alpha: settings.bellDelayEnabled ? .95 : .25),
-                ),
-                trailingDivider: true,
-                trailing: Switch(
-                  onChanged: (v) {
-                    _haptic();
-                    settings.update(bellDelayEnabled: v);
-                  },
-                  value: settings.bellDelayEnabled,
-                  activeColor: Theme.of(context).colorScheme.secondary,
-                ),
-                borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(12.0), bottom: Radius.circular(4.0)),
-              ),
-              PanelButton(
-                padding: const EdgeInsets.only(left: 14.0, right: 6.0),
-                onPressed: () {
-                  settings.update(showBreaks: !settings.showBreaks);
-                  setState(() {});
+                      .withValues(alpha: settings.showBreaks ? .95 : .25)),
+              trailing: Switch(
+                onChanged: (v) {
+                  _haptic();
+                  settings.update(showBreaks: v);
                 },
-                title: Text("show_breaks".i18n,
-                    style: TextStyle(
-                        color: AppColors.of(context).text.withValues(
-                            alpha: settings.showBreaks ? .95 : .25))),
-                leading: Icon(
-                    settings.showBreaks
-                        ? Icons.visibility_rounded
-                        : Icons.visibility_off_rounded,
-                    size: 22.0,
-                    color: AppColors.of(context)
-                        .text
-                        .withValues(alpha: settings.showBreaks ? .95 : .25)),
-                trailing: Switch(
-                  onChanged: (v) {
-                    _haptic();
-                    settings.update(showBreaks: v);
-                  },
-                  value: settings.showBreaks,
-                  activeColor: Theme.of(context).colorScheme.secondary,
-                ),
-                borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(4.0), bottom: Radius.circular(12.0)),
+                value: settings.showBreaks,
+                activeColor: Theme.of(context).colorScheme.secondary,
               ),
-            ],
+              borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(4.0), bottom: Radius.circular(12.0)),
+            ),
+          ],
         ),
       ),
 
@@ -1199,7 +1199,8 @@ class SettingsScreenState extends State<SettingsScreen>
           widget: Padding(
             padding: EdgeInsets.zero,
             child: SplittedPanel(
-              padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
+              padding:
+                  const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
               cardPadding: const EdgeInsets.all(4.0),
               isSeparated: true,
               children: [
@@ -1275,7 +1276,8 @@ class SettingsScreenState extends State<SettingsScreen>
         widget: Padding(
           padding: EdgeInsets.zero,
           child: SplittedPanel(
-            padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
             cardPadding: const EdgeInsets.all(4.0),
             isSeparated: false,
             children: [
@@ -1293,8 +1295,7 @@ class SettingsScreenState extends State<SettingsScreen>
                   'push_notifications'.i18n,
                   style: TextStyle(
                       color: AppColors.of(context).text.withValues(
-                          alpha:
-                              settings.notificationsEnabled ? .95 : .25)),
+                          alpha: settings.notificationsEnabled ? .95 : .25)),
                 ),
                 leading: Icon(
                   settings.notificationsEnabled
@@ -1342,8 +1343,7 @@ class SettingsScreenState extends State<SettingsScreen>
                     Icons.bookmark_rounded,
                     size: 22.0,
                     color: AppColors.of(context).text.withValues(
-                        alpha:
-                            settings.notificationsGradesEnabled ? .95 : .25),
+                        alpha: settings.notificationsGradesEnabled ? .95 : .25),
                   ),
                   trailing: Switch(
                     onChanged: (v) {
@@ -1355,8 +1355,7 @@ class SettingsScreenState extends State<SettingsScreen>
                     activeColor: Theme.of(context).colorScheme.secondary,
                   ),
                   borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(4.0),
-                      bottom: Radius.circular(4.0)),
+                      top: Radius.circular(4.0), bottom: Radius.circular(4.0)),
                 )),
                 // Absences
                 _subSetting(PanelButton(
@@ -1393,8 +1392,7 @@ class SettingsScreenState extends State<SettingsScreen>
                     activeColor: Theme.of(context).colorScheme.secondary,
                   ),
                   borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(4.0),
-                      bottom: Radius.circular(4.0)),
+                      top: Radius.circular(4.0), bottom: Radius.circular(4.0)),
                 )),
                 // Messages
                 _subSetting(PanelButton(
@@ -1431,8 +1429,7 @@ class SettingsScreenState extends State<SettingsScreen>
                     activeColor: Theme.of(context).colorScheme.secondary,
                   ),
                   borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(4.0),
-                      bottom: Radius.circular(4.0)),
+                      top: Radius.circular(4.0), bottom: Radius.circular(4.0)),
                 )),
                 // Lessons
                 _subSetting(PanelButton(
@@ -1469,8 +1466,7 @@ class SettingsScreenState extends State<SettingsScreen>
                     activeColor: Theme.of(context).colorScheme.secondary,
                   ),
                   borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(4.0),
-                      bottom: Radius.circular(12.0)),
+                      top: Radius.circular(4.0), bottom: Radius.circular(12.0)),
                 )),
               ],
             ],
@@ -1495,7 +1491,8 @@ class SettingsScreenState extends State<SettingsScreen>
           widget: Padding(
             padding: EdgeInsets.zero,
             child: SplittedPanel(
-              padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
+              padding:
+                  const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
               cardPadding: const EdgeInsets.all(4.0),
               isSeparated: false,
               children: [
@@ -1602,7 +1599,8 @@ class SettingsScreenState extends State<SettingsScreen>
           widget: Padding(
             padding: EdgeInsets.zero,
             child: SplittedPanel(
-              padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
+              padding:
+                  const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
               cardPadding: const EdgeInsets.all(4.0),
               isSeparated: false,
               children: [
@@ -1779,7 +1777,8 @@ class SettingsScreenState extends State<SettingsScreen>
         widget: Padding(
           padding: EdgeInsets.zero,
           child: SplittedPanel(
-            padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
             cardPadding: const EdgeInsets.all(4.0),
             isSeparated: false,
             children: [
@@ -1832,7 +1831,8 @@ class SettingsScreenState extends State<SettingsScreen>
         widget: Padding(
           padding: EdgeInsets.zero,
           child: SplittedPanel(
-            padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
             cardPadding: const EdgeInsets.all(4.0),
             isSeparated: false,
             children: [
@@ -1888,7 +1888,8 @@ class SettingsScreenState extends State<SettingsScreen>
         widget: Padding(
           padding: EdgeInsets.zero,
           child: SplittedPanel(
-            padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
             cardPadding: const EdgeInsets.all(4.0),
             isSeparated: false,
             children: [
@@ -1958,7 +1959,8 @@ class SettingsScreenState extends State<SettingsScreen>
         widget: Padding(
           padding: EdgeInsets.zero,
           child: SplittedPanel(
-            padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
             cardPadding: const EdgeInsets.all(4.0),
             isSeparated: false,
             children: [
@@ -2048,7 +2050,8 @@ class SettingsScreenState extends State<SettingsScreen>
         widget: Padding(
           padding: EdgeInsets.zero,
           child: SplittedPanel(
-            padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
             cardPadding: const EdgeInsets.all(4.0),
             isSeparated: false,
             children: [
@@ -2100,7 +2103,8 @@ class SettingsScreenState extends State<SettingsScreen>
         widget: Padding(
           padding: EdgeInsets.zero,
           child: SplittedPanel(
-            padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
             cardPadding: const EdgeInsets.all(4.0),
             isSeparated: false,
             children: [
@@ -2127,7 +2131,8 @@ class SettingsScreenState extends State<SettingsScreen>
         widget: Padding(
           padding: EdgeInsets.zero,
           child: SplittedPanel(
-            padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
             cardPadding: const EdgeInsets.all(4.0),
             isSeparated: false,
             children: [
@@ -2196,7 +2201,8 @@ class SettingsScreenState extends State<SettingsScreen>
           widget: Padding(
             padding: EdgeInsets.zero,
             child: SplittedPanel(
-              padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
+              padding:
+                  const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
               cardPadding: const EdgeInsets.all(4.0),
               isSeparated: true,
               children: [
@@ -2247,7 +2253,8 @@ class SettingsScreenState extends State<SettingsScreen>
         widget: Padding(
           padding: EdgeInsets.zero,
           child: SplittedPanel(
-            padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
             cardPadding: const EdgeInsets.all(4.0),
             isSeparated: false,
             children: [
@@ -2314,7 +2321,8 @@ class SettingsScreenState extends State<SettingsScreen>
         widget: Padding(
           padding: EdgeInsets.zero,
           child: SplittedPanel(
-            padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
             cardPadding: const EdgeInsets.all(4.0),
             isSeparated: false,
             children: [
@@ -2442,7 +2450,7 @@ class SettingsScreenState extends State<SettingsScreen>
                 ),
                 borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(4.0), bottom: Radius.circular(12.0)),
-              ),
+              )
             ],
           ),
         ),
@@ -2480,7 +2488,8 @@ class SettingsScreenState extends State<SettingsScreen>
         widget: Padding(
           padding: EdgeInsets.zero,
           child: SplittedPanel(
-            padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
             cardPadding: const EdgeInsets.all(4.0),
             isSeparated: true,
             children: [
@@ -2529,7 +2538,8 @@ class SettingsScreenState extends State<SettingsScreen>
         widget: Padding(
           padding: EdgeInsets.zero,
           child: SplittedPanel(
-            padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
+            padding:
+                const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
             cardPadding: const EdgeInsets.all(4.0),
             children: [
               Tooltip(
@@ -2610,48 +2620,48 @@ class SettingsScreenState extends State<SettingsScreen>
           padding: const EdgeInsets.only(bottom: 14.0, left: 24.0, right: 24.0),
           cardPadding: const EdgeInsets.all(4.0),
           children: [
-              PanelButton(
-                leading: Icon(Icons.lock_outline_rounded,
-                    size: 22.0,
-                    color: AppColors.of(context).text.withValues(alpha: 0.95)),
-                title: Text("privacy".i18n),
-                onPressed: () => _openPrivacy(context),
-                borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(12.0), bottom: Radius.circular(4.0)),
-              ),
-              PanelButton(
-                leading: Icon(Icons.alternate_email_rounded,
-                    size: 22.0,
-                    color: AppColors.of(context).text.withValues(alpha: 0.95)),
-                title: const Text("Discord"),
-                onPressed: () => launchUrl(
-                    Uri.parse("https://discord.gg/6DvjyPAw2T"),
-                    mode: LaunchMode.externalApplication),
-                borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(4.0), bottom: Radius.circular(4.0)),
-              ),
-              PanelButton(
-                leading: Icon(Icons.code_rounded,
-                    size: 22.0,
-                    color: AppColors.of(context).text.withValues(alpha: 0.95)),
-                title: const Text("GitHub"),
-                onPressed: () => launchUrl(
-                    Uri.parse("https://github.com/zan1456/folio"),
-                    mode: LaunchMode.externalApplication),
-                borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(4.0), bottom: Radius.circular(4.0)),
-              ),
-              PanelButton(
-                leading: Icon(Icons.emoji_events_rounded,
-                    size: 22.0,
-                    color: AppColors.of(context).text.withValues(alpha: 0.95)),
-                title: Text("licenses".i18n),
-                onPressed: () => showLicensePage(context: context),
-                borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(4.0), bottom: Radius.circular(12.0)),
-              ),
-            ],
-          ),
+            PanelButton(
+              leading: Icon(Icons.lock_outline_rounded,
+                  size: 22.0,
+                  color: AppColors.of(context).text.withValues(alpha: 0.95)),
+              title: Text("privacy".i18n),
+              onPressed: () => _openPrivacy(context),
+              borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(12.0), bottom: Radius.circular(4.0)),
+            ),
+            PanelButton(
+              leading: Icon(Icons.alternate_email_rounded,
+                  size: 22.0,
+                  color: AppColors.of(context).text.withValues(alpha: 0.95)),
+              title: const Text("Discord"),
+              onPressed: () => launchUrl(
+                  Uri.parse("https://discord.gg/6DvjyPAw2T"),
+                  mode: LaunchMode.externalApplication),
+              borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(4.0), bottom: Radius.circular(4.0)),
+            ),
+            PanelButton(
+              leading: Icon(Icons.code_rounded,
+                  size: 22.0,
+                  color: AppColors.of(context).text.withValues(alpha: 0.95)),
+              title: const Text("GitHub"),
+              onPressed: () => launchUrl(
+                  Uri.parse("https://github.com/zan1456/folio"),
+                  mode: LaunchMode.externalApplication),
+              borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(4.0), bottom: Radius.circular(4.0)),
+            ),
+            PanelButton(
+              leading: Icon(Icons.emoji_events_rounded,
+                  size: 22.0,
+                  color: AppColors.of(context).text.withValues(alpha: 0.95)),
+              title: Text("licenses".i18n),
+              onPressed: () => showLicensePage(context: context),
+              borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(4.0), bottom: Radius.circular(12.0)),
+            ),
+          ],
+        ),
       ),
     ];
   }
@@ -2702,7 +2712,8 @@ class SettingsScreenState extends State<SettingsScreen>
               if (pendingCode != null)
                 PanelButton(
                   padding: const EdgeInsets.only(left: 14.0, right: 14.0),
-                  onPressed: () => _showPairingDialog(context, wear, pendingCode),
+                  onPressed: () =>
+                      _showPairingDialog(context, wear, pendingCode),
                   title: const Text(
                     'WearOS app találva — Csatlakoztatás',
                     style: TextStyle(fontWeight: FontWeight.w700),
@@ -3059,8 +3070,7 @@ class _PairingDialogState extends State<_PairingDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
       icon: const Icon(Icons.watch_rounded, size: 36.0, color: Colors.green),
       title: const Text(
         'WearOS app találva',
@@ -3091,8 +3101,8 @@ class _PairingDialogState extends State<_PairingDialog> {
               hintText: '------',
               counterText: '',
               errorText: _isError ? 'Helytelen kód' : null,
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.0)),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
             ),
           ),
         ],
@@ -3107,8 +3117,8 @@ class _PairingDialogState extends State<_PairingDialog> {
         ),
         FilledButton(
           onPressed: () async {
-            final ok = await widget.wear
-                .confirmPairing(_codeController.text.trim());
+            final ok =
+                await widget.wear.confirmPairing(_codeController.text.trim());
             if (ok) {
               if (mounted) Navigator.pop(context);
             } else {

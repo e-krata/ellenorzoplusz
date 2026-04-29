@@ -39,21 +39,20 @@ class NewGradesSurprise extends StatelessWidget {
             height: 44,
             child: Center(
               child: Container(
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .secondary
-                        .withValues(alpha: .5),
-                    blurRadius: 18.0,
-                  )
-                ]),
-                child: Icon(
-                  Icons.backpack,
-                  size: 36.0,
-                  color: Theme.of(context).colorScheme.secondary,
-                )
-              ),
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .secondary
+                          .withValues(alpha: .5),
+                      blurRadius: 18.0,
+                    )
+                  ]),
+                  child: Icon(
+                    Icons.backpack,
+                    size: 36.0,
+                    color: Theme.of(context).colorScheme.secondary,
+                  )),
             ),
           ),
           title: censored

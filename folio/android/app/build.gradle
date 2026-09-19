@@ -2,7 +2,13 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
-    id "com.google.gms.google-services"
+}
+
+// Google Services csak akkor kell, ha van google-services.json.
+// GitHub Actions / ujkreta build esetén nincs rá szükség.
+def googleServicesFile = file("google-services.json")
+if (googleServicesFile.exists()) {
+    apply plugin: "com.google.gms.google-services"
 }
 
 def localProperties = new Properties()
@@ -127,7 +133,7 @@ android {
         }
 
         release {
-            // Use the real release keystore when key.properties exists.
+            // Saját release keystore használata, ha van.
             if (keystorePropertiesFile.exists() &&
                     keystoreProperties['storeFile'] != null) {
 
@@ -141,8 +147,6 @@ android {
                 storePassword keystoreProperties['storePassword']
             } else {
                 // GitHub Actions fallback.
-                // This allows the CI release APK to be built without
-                // a private release keystore.
                 keyAlias "androiddebugkey"
                 keyPassword "android"
                 storePassword "android"

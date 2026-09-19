@@ -7,6 +7,7 @@ plugins {
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
+
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
@@ -14,7 +15,8 @@ if (localPropertiesFile.exists()) {
 }
 
 // Flutter version.
-// CI/CD környezetben nincs szükség local.properties-re.
+// GitHub Actions alatt nincs feltétlenül local.properties,
+// ezért biztonságos alapértékeket használunk.
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
     flutterVersionCode = '1'
@@ -27,14 +29,18 @@ if (flutterVersionName == null) {
 
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file("key.properties")
+
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
 def debugKeystoreProperties = new Properties()
 def debugKeystorePropertiesFile = rootProject.file("debugkey.properties")
+
 if (debugKeystorePropertiesFile.exists()) {
-    debugKeystoreProperties.load(new FileInputStream(debugKeystorePropertiesFile))
+    debugKeystoreProperties.load(
+        new FileInputStream(debugKeystorePropertiesFile)
+    )
 }
 
 // Magical code that fixes builds.
@@ -52,6 +58,7 @@ subprojects {
 
 android {
     namespace = "app.zan1456.folio"
+
     ndkVersion = "28.2.13676358"
 
     flavorDimensions "distribution"
@@ -81,6 +88,7 @@ android {
 
     defaultConfig {
         applicationId "app.zan1456.folio"
+
         minSdkVersion 24
         targetSdkVersion 36
 
@@ -88,7 +96,9 @@ android {
         versionName flutterVersionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
         multiDexEnabled true
+
         resConfigs "en"
     }
 
@@ -106,16 +116,42 @@ android {
     signingConfigs {
         debug {
             keyAlias "androiddebugkey"
-            storeFile file(System.properties['user.home'] + "/.android/debug.keystore")
+
+            storeFile file(
+                System.properties['user.home'] +
+                "/.android/debug.keystore"
+            )
+
             storePassword "android"
             keyPassword "android"
         }
 
         release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+            // Use the real release keystore when key.properties exists.
+            if (keystorePropertiesFile.exists() &&
+                    keystoreProperties['storeFile'] != null) {
+
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+
+                storeFile file(
+                    keystoreProperties['storeFile']
+                )
+
+                storePassword keystoreProperties['storePassword']
+            } else {
+                // GitHub Actions fallback.
+                // This allows the CI release APK to be built without
+                // a private release keystore.
+                keyAlias "androiddebugkey"
+                keyPassword "android"
+                storePassword "android"
+
+                storeFile file(
+                    System.properties['user.home'] +
+                    "/.android/debug.keystore"
+                )
+            }
         }
     }
 
@@ -129,15 +165,18 @@ android {
 
             shrinkResources true
             minifyEnabled true
+
             debuggable false
             jniDebuggable false
+
             renderscriptDebuggable false
             pseudoLocalesEnabled false
+
             zipAlignEnabled true
             crunchPngs true
 
             proguardFiles getDefaultProguardFile(
-                    'proguard-android-optimize.txt'
+                'proguard-android-optimize.txt'
             ), 'proguard-rules.pro'
         }
     }
@@ -159,11 +198,13 @@ dependencies {
     implementation 'joda-time:joda-time:2.9.4'
 
     androidTestImplementation 'androidx.test:runner:1.1.1'
+
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
 
     implementation 'androidx.window:window:1.0.0'
+
     implementation 'androidx.window:window-java:1.0.0'
 
     // HyperIsland-ToolKit: Xiaomi HyperOS Living Island support

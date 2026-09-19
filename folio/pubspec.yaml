@@ -1,9 +1,9 @@
 name: folio
-description: "Egy nem hivatalos e-KRÉTA kliens, diákoktól diákoknak."
+description: "Egy hivatalos eKRÁTA kliens, diákoktól diákoknak."
 homepage: https://folio.zan1456.dev
 publish_to: "none"
 
-version: 1.0.9+41
+version: 1.0.0
 
 environment:
   sdk: ^3.6.0

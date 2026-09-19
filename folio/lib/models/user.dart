@@ -1,15 +1,17 @@
 import 'dart:convert';
+
 import 'package:folio_kreta_api/client/api.dart';
 import 'package:folio_kreta_api/models/school.dart';
 import 'package:folio_kreta_api/models/student.dart';
 import 'package:uuid/uuid.dart';
 
-const String demoUserId = 'demo-user-00000000-0000-0000-0000-000000000000';
+const String demoUserId = 'demo-user-00000000-0000-0000-000000000000';
 
 enum Role { student, parent }
 
 class User {
   late String id;
+
   String username;
   String password;
   String instituteCode;
@@ -19,18 +21,20 @@ class User {
   String nickname;
   String picture;
   int gradeStreak;
-  // new login method
+
+  // ujkreta OAuth tokenek
   String accessToken;
   DateTime accessTokenExpire;
   String refreshToken;
+
+  // Régi KRÉTA IDP mezők.
+  // Az ujkreta használatához már nem szükségesek,
+  // de kompatibilitás miatt megtartjuk őket.
   String idpApplication;
   String idpRememberBrowser;
-  // cloud sync
-  // String qwidAccessToken;
-  // DateTime? qwidAccessTokenExpire;
-  // String qwidRefreshToken;
 
   String get displayName => nickname != '' ? nickname : name;
+
   bool get hasStreak => gradeStreak > 0;
 
   User({
@@ -49,9 +53,6 @@ class User {
     required this.refreshToken,
     this.idpApplication = "",
     this.idpRememberBrowser = "",
-    // this.qwidAccessToken = "",
-    // this.qwidAccessTokenExpire,
-    // this.qwidRefreshToken = "",
   }) {
     if (id != null) {
       this.id = id;
@@ -63,37 +64,40 @@ class User {
   factory User.fromMap(Map map) {
     return User(
       id: map["id"],
-      instituteCode: map["institute_code"],
-      username: map["username"],
-      password: map["password"],
-      name: map["name"].trim(),
-      student: map["student"] != 'null'
+      instituteCode: map["institute_code"] ?? "",
+      username: map["username"] ?? "",
+      password: map["password"] ?? "",
+      name: (map["name"] ?? "Ismeretlen Diák").toString().trim(),
+      student: map["student"] != null && map["student"] != 'null'
           ? Student.fromJson(jsonDecode(map["student"]))
           : Student(
               id: const Uuid().v4(),
               name: 'Ismeretlen Diák',
-              school: School(instituteCode: '', name: '', city: ''),
+              school: School(
+                instituteCode: '',
+                name: '',
+                city: '',
+              ),
               birth: DateTime.now(),
               yearId: '1',
               parents: [],
               gradeDelay: 0,
             ),
-      role: Role.values[map["role"] ?? 0],
+      role: Role.values[
+          (map["role"] ?? Role.student.index).clamp(0, Role.values.length - 1)],
       nickname: map["nickname"] ?? "",
       picture: map["picture"] ?? "",
       gradeStreak: map["grade_streak"] ?? 0,
       accessToken: map["access_token"] ?? "",
-      accessTokenExpire: DateTime.parse(map["access_token_expire"] != ""
-          ? map["access_token_expire"]
-          : DateTime.now().toIso8601String()),
+      accessTokenExpire: DateTime.parse(
+        map["access_token_expire"] != null &&
+                map["access_token_expire"].toString().isNotEmpty
+            ? map["access_token_expire"].toString()
+            : DateTime.now().toIso8601String(),
+      ),
       refreshToken: map["refresh_token"] ?? "",
       idpApplication: map["idp_application"] ?? "",
       idpRememberBrowser: map["idp_remember_browser"] ?? "",
-      // qwidAccessToken: map["qwid_access_token"] ?? "",
-      // qwidAccessTokenExpire: map["qwid_access_token_expire"] != ""
-      //     ? DateTime.parse(map["qwid_access_token_expire"])
-      //     : null,
-      // qwidRefreshToken: map["qwid_refresh_token"] ?? "",
     );
   }
 
@@ -114,11 +118,6 @@ class User {
       "refresh_token": refreshToken,
       "idp_application": idpApplication,
       "idp_remember_browser": idpRememberBrowser,
-      // "qwid_access_token": qwidAccessToken,
-      // "qwid_access_token_expire": qwidAccessTokenExpire != null
-      //     ? qwidAccessTokenExpire!.toIso8601String()
-      //     : "",
-      // "qwid_refresh_token": qwidRefreshToken,
     };
   }
 
@@ -148,46 +147,55 @@ class User {
       role: Role.student,
       nickname: 'Demo',
       accessToken: 'demo',
-      accessTokenExpire: DateTime.now().add(const Duration(days: 365)),
+      accessTokenExpire: DateTime.now().add(
+        const Duration(days: 365),
+      ),
       refreshToken: 'demo',
     );
   }
 
   bool get isDemo => id == demoUserId;
 
-  static Map<String, Object?> loginBody({
+  /// ujkreta password grant.
+  ///
+  /// A szerver:
+  /// POST /connect/token
+  ///
+  /// Elvárt mezők:
+  /// grant_type=password
+  /// username=...
+  /// password=...
+  static Map<String, String> loginBody({
     required String username,
     required String password,
-    required String instituteCode,
+    String instituteCode = "",
   }) {
     return {
-      "userName": username,
-      "password": password,
-      "institute_code": instituteCode,
       "grant_type": "password",
-      "client_id": KretaAPI.clientId,
+      "username": username,
+      "password": password,
     };
   }
 
-  static Map<String, Object?> refreshBody({
+  /// ujkreta refresh token grant.
+  static Map<String, String> refreshBody({
     required String refreshToken,
-    required String instituteCode,
+    String instituteCode = "",
   }) {
     return {
-      "refresh_token": refreshToken,
-      "institute_code": instituteCode,
-      "client_id": KretaAPI.clientId,
       "grant_type": "refresh_token",
-      "refresh_user_data": "false",
+      "refresh_token": refreshToken,
     };
   }
 
-  static Map<String, Object?> logoutBody({
+  /// Az ujkreta jelenlegi működéséhez logout nem szükséges.
+  ///
+  /// A metódust kompatibilitás miatt megtartjuk.
+  static Map<String, String> logoutBody({
     required String refreshToken,
   }) {
     return {
       "refresh_token": refreshToken,
-      "client_id": KretaAPI.clientId,
     };
   }
 }

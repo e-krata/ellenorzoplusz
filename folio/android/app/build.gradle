@@ -4,8 +4,6 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
-// Google Services csak akkor kell, ha van google-services.json.
-// GitHub Actions / ujkreta build esetén nincs rá szükség.
 def googleServicesFile = file("google-services.json")
 if (googleServicesFile.exists()) {
     apply plugin: "com.google.gms.google-services"
@@ -20,9 +18,6 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-// Flutter version.
-// GitHub Actions alatt nincs feltétlenül local.properties,
-// ezért biztonságos alapértékeket használunk.
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
     flutterVersionCode = '1'
@@ -133,7 +128,6 @@ android {
         }
 
         release {
-            // Saját release keystore használata, ha van.
             if (keystorePropertiesFile.exists() &&
                     keystoreProperties['storeFile'] != null) {
 
@@ -146,7 +140,7 @@ android {
 
                 storePassword keystoreProperties['storePassword']
             } else {
-                // GitHub Actions fallback.
+                // CI fallback.
                 keyAlias "androiddebugkey"
                 keyPassword "android"
                 storePassword "android"
@@ -211,12 +205,9 @@ dependencies {
 
     implementation 'androidx.window:window-java:1.0.0'
 
-    // HyperIsland-ToolKit: Xiaomi HyperOS Living Island support
     implementation 'io.github.d4viddf:hyperisland_kit:0.4.3'
 
-    // Wearable Data Layer – phone ↔ WearOS communication
     implementation 'com.google.android.gms:play-services-wearable:18.2.0'
 
-    // WorkManager – daily 7 AM morning sync to watch
     implementation 'androidx.work:work-runtime-ktx:2.10.1'
 }

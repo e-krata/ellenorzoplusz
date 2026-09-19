@@ -13,24 +13,17 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-// def flutterRoot = localProperties.getProperty('flutter.sdk')
-// if (flutterRoot == null) {
-//     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
-// }
-
+// Flutter version.
+// CI/CD környezetben nincs szükség local.properties-re.
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    throw new GradleException("Undefined VersionCode")
+    flutterVersionCode = '1'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    throw new GradleException("Undefined VersionName")
+    flutterVersionName = '1.0.0'
 }
-
-// apply plugin: 'com.android.application'
-// apply plugin: 'kotlin-android'
-// apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file("key.properties")
@@ -44,7 +37,7 @@ if (debugKeystorePropertiesFile.exists()) {
     debugKeystoreProperties.load(new FileInputStream(debugKeystorePropertiesFile))
 }
 
-// magical code that fixes builds
+// Magical code that fixes builds.
 subprojects {
     afterEvaluate { project ->
         if (project.hasProperty('android')) {
@@ -62,16 +55,17 @@ android {
     ndkVersion = "28.2.13676358"
 
     flavorDimensions "distribution"
+
     productFlavors {
         github {
             dimension "distribution"
         }
+
         playstore {
             dimension "distribution"
         }
     }
 
-    // compileSdkVersion rootProject.ext.compileSdkVersion
     compileSdkVersion 36
 
     sourceSets {
@@ -89,21 +83,18 @@ android {
         applicationId "app.zan1456.folio"
         minSdkVersion 24
         targetSdkVersion 36
+
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         resConfigs "en"
     }
 
     compileOptions {
-        // Flag to enable support for the new language APIs
         coreLibraryDesugaringEnabled true
-        // Sets Java compatibility to Java 8
-        // sourceCompatibility JavaVersion.VERSION_1_8
-        // targetCompatibility JavaVersion.VERSION_1_8
-        // sourceCompatibility JavaVersion.VERSION_21
-        // targetCompatibility JavaVersion.VERSION_21
+
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
@@ -114,7 +105,6 @@ android {
 
     signingConfigs {
         debug {
-            // Use the default Android debug keystore to avoid alias mismatches
             keyAlias "androiddebugkey"
             storeFile file(System.properties['user.home'] + "/.android/debug.keystore")
             storePassword "android"
@@ -136,6 +126,7 @@ android {
 
         release {
             signingConfig signingConfigs.release
+
             shrinkResources true
             minifyEnabled true
             debuggable false
@@ -144,11 +135,13 @@ android {
             pseudoLocalesEnabled false
             zipAlignEnabled true
             crunchPngs true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
-                    'proguard-rules.pro'
+
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            ), 'proguard-rules.pro'
         }
     }
-    
+
     buildFeatures {
         viewBinding true
     }
@@ -160,17 +153,25 @@ flutter {
 
 dependencies {
     implementation 'com.android.support:multidex:2.0.1'
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.21"
+
     implementation 'joda-time:joda-time:2.9.4'
+
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
+
     implementation 'androidx.window:window:1.0.0'
     implementation 'androidx.window:window-java:1.0.0'
+
     // HyperIsland-ToolKit: Xiaomi HyperOS Living Island support
     implementation 'io.github.d4viddf:hyperisland_kit:0.4.3'
+
     // Wearable Data Layer – phone ↔ WearOS communication
     implementation 'com.google.android.gms:play-services-wearable:18.2.0'
+
     // WorkManager – daily 7 AM morning sync to watch
     implementation 'androidx.work:work-runtime-ktx:2.10.1'
 }

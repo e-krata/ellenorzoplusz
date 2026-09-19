@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:folio_kreta_api/client/api.dart';
 import 'package:folio_kreta_api/models/school.dart';
 import 'package:folio_kreta_api/models/student.dart';
 import 'package:uuid/uuid.dart';

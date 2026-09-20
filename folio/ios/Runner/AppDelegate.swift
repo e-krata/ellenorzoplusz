@@ -19,7 +19,7 @@ import WebKit
             fatalError("rootViewController is not type FlutterViewController")
         }
         methodChannel = FlutterMethodChannel(
-            name: "app.zan1456.folio/liveactivity",
+            name: "hu.ekrata.ellenorzoplusz/liveactivity",
             binaryMessenger: controller as! FlutterBinaryMessenger
         )
         methodChannel?.setMethodCallHandler({ [weak self] (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in

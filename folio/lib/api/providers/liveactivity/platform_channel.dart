@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 class PlatformChannel {
-  static const MethodChannel _channel = MethodChannel('app.zan1456.folio/liveactivity');
+  static const MethodChannel _channel = MethodChannel('hu.ekrata.ellenorzoplusz/liveactivity');
 
   /// Callback token rotation esetén (iOS APNs új tokent ad ki).
   static void Function(String pushToken, String deviceId, String bundleId)? onTokenUpdated;

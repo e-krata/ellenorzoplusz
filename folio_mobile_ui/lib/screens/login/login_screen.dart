@@ -204,9 +204,9 @@ class LoginScreenState extends State<LoginScreen> {
 
                           _InfoCard(
                             icon: Icons.cloud_outlined,
-                            title: 'KRÉTA',
+                            title: 'KRÁTA',
                             subtitle:
-                                'Bejelentkezés az ujkreta szerveren',
+                                'Bejelentkezés a KRÁTA szerveren',
                           ),
 
                           const SizedBox(height: 26),

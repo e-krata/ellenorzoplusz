@@ -6,7 +6,7 @@ import '../models/wear_lesson.dart';
 import '../models/wear_notification.dart';
 
 class WearDataProvider with ChangeNotifier {
-  static const _channel = MethodChannel('app.zan1456.folio.wear/data');
+  static const _channel = MethodChannel('hu.ekrata.ellenorzoplusz.wear/data');
 
   static void Function(double delta)? onRotaryInput;
 

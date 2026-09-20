@@ -1,4 +1,4 @@
-package app.zan1456.folio.wear
+package hu.ekrata.ellenorzoplusz.wear
 
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodChannel

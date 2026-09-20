@@ -58,7 +58,7 @@ subprojects {
 }
 
 android {
-    namespace = "app.zan1456.folio"
+    namespace = "hu.ekrata.ellenorzoplusz"
 
     ndkVersion = "28.2.13676358"
 
@@ -88,7 +88,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "app.zan1456.folio"
+        applicationId "hu.ekrata.ellenorzoplusz"
 
         minSdkVersion 24
         targetSdkVersion 36

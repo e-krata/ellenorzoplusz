@@ -298,7 +298,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                     ? FilledButton.icon(
                         onPressed: () => launchUrl(
                           Uri.parse(
-                              'https://play.google.com/store/apps/details?id=app.zan1456.folio'),
+                              'https://play.google.com/store/apps/details?id=hu.ekrata.ellenorzoplusz'),
                         ),
                         style: FilledButton.styleFrom(
                           shape: RoundedRectangleBorder(

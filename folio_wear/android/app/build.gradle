@@ -22,7 +22,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "app.zan1456.folio.wear"
+    namespace = "hu.ekrata.ellenorzoplusz.wear"
     compileSdkVersion 36
 
     sourceSets {
@@ -30,7 +30,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "app.zan1456.folio"
+        applicationId "hu.ekrata.ellenorzoplusz"
         minSdkVersion 26
         targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()

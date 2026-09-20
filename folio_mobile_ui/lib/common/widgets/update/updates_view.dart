@@ -97,7 +97,7 @@ class UpdateViewState extends State<UpdateView> {
                     backgroundColor: AppColors.of(context).filc,
                     onPressed: () => launchUrl(
                       Uri.parse(
-                          'https://play.google.com/store/apps/details?id=app.zan1456.folio'),
+                          'https://play.google.com/store/apps/details?id=hu.ekrata.ellenorzoplusz'),
                     ),
                     child: Text("open_playstore".i18n.toUpperCase()),
                   )

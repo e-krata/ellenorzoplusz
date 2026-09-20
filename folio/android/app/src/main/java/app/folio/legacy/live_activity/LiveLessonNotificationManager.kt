@@ -1,4 +1,4 @@
-package app.zan1456.folio.live_activity
+package hu.ekrata.ellenorzoplusz.live_activity
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -7,8 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import app.zan1456.folio.MainActivity
-import app.zan1456.folio.R
+import hu.ekrata.ellenorzoplusz.MainActivity
+import hu.ekrata.ellenorzoplusz.R
 import io.github.d4viddf.hyperisland_kit.HyperIslandNotification
 
 class LiveLessonNotificationManager(private val context: Context) {

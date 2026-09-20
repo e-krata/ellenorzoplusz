@@ -27,7 +27,7 @@ class ConnectingScreen extends StatelessWidget {
               ),
               const SizedBox(height: 18.0),
               const Text(
-                'Folio',
+                'eFolio',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18.0,

@@ -265,7 +265,7 @@ class _KretenLoginWidgetState extends State<KretenLoginWidget>
               ),
               const SizedBox(height: 8),
               Text(
-                'Az e-KRÉTA bejelentkezés csak magyarországi hálózatról érhető el. Kérjük, ellenőrizd az internetkapcsolatod.',
+                'Az eKRÁTA bejelentkezés csak magyarországi hálózatról érhető el. Kérjük, ellenőrizd az internetkapcsolatod.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 13,
@@ -597,11 +597,11 @@ class _KretaBgLoginWidgetState extends State<KretaBgLoginWidget> {
     try {
       if (Platform.isAndroid) {
         return await const MethodChannel(
-          'app.zan1456.folio/android_live_activity',
+          'hu.ekrata.ellenorzoplusz/android_live_activity',
         ).invokeMethod<String>('getCookies', {'url': url});
       } else if (Platform.isIOS) {
         return await const MethodChannel(
-          'app.zan1456.folio/liveactivity',
+          'hu.ekrata.ellenorzoplusz/liveactivity',
         ).invokeMethod<String>('getCookies', {'url': url});
       }
     } catch (_) {}

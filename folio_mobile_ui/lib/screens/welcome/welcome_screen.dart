@@ -119,7 +119,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                           ),
                           const SizedBox(height: 20.0),
                           Text(
-                            'Folio',
+                            'eFolio',
                             style: tt.displaySmall!.copyWith(
                               fontWeight: FontWeight.w800,
                               color: cs.onSurface,
@@ -128,7 +128,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                           ),
                           const SizedBox(height: 8.0),
                           Text(
-                            'Az e-KRÉTA egy másik arca.',
+                            'Az eKRÁTA egy másik arca.',
                             style: tt.bodyLarge!.copyWith(
                               color: cs.onSurface.withValues(alpha: 0.5),
                               fontWeight: FontWeight.w400,

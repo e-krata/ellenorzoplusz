@@ -25,7 +25,7 @@ import 'package:flutter/widgets.dart';
 ///
 /// Call [syncToWatch] after every [syncAll] and whenever timetable changes.
 class WearProvider with ChangeNotifier {
-  static const _channel = MethodChannel('app.zan1456.folio/wear_sync');
+  static const _channel = MethodChannel('hu.ekrata.ellenorzoplusz/wear_sync');
 
   bool _watchConnected = false;
   bool _syncEnabled = true;

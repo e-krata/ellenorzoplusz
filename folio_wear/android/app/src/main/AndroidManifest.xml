@@ -26,7 +26,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name="app.zan1456.folio.wear.MainActivity"
+            android:name="hu.ekrata.ellenorzoplusz.wear.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:taskAffinity=""
@@ -40,7 +40,7 @@
 
         <!-- Listens for data from the phone app via Wearable Data Layer -->
         <service
-            android:name="app.zan1456.folio.wear.WearDataListenerService"
+            android:name="hu.ekrata.ellenorzoplusz.wear.WearDataListenerService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
@@ -57,6 +57,6 @@
 
     <!-- WearOS capability declaration – phone app uses this to find the watch app -->
     <queries>
-        <package android:name="app.zan1456.folio" />
+        <package android:name="hu.ekrata.ellenorzoplusz" />
     </queries>
 </manifest>

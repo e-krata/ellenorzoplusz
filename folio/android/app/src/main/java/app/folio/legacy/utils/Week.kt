@@ -1,4 +1,4 @@
-package app.zan1456.folio.utils
+package hu.ekrata.ellenorzoplusz.utils
 
 import java.time.DayOfWeek
 import java.time.Duration

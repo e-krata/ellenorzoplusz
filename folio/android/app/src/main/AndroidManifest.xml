@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" package="app.zan1456.folio">
+    xmlns:tools="http://schemas.android.com/tools" package="hu.ekrata.ellenorzoplusz">
     <!-- Allow HyperIsland-ToolKit (minSdk 26) in a minSdk-24 app.
          HyperOS devices are API 26+; the Kotlin code uses try/catch as fallback. -->
     <uses-sdk tools:overrideLibrary="io.github.d4viddf.hyperisland_kit" />
-    <application android:name="${applicationName}" android:label="Folio" tools:replace="android:label"
+    <application android:name="${applicationName}" android:label="eFolio" tools:replace="android:label"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:enableOnBackInvokedCallback="false">
@@ -13,7 +13,7 @@
             android:name="io.flutter.embedding.android.EnableImpeller"
             android:value="true" />
 
-        <activity android:exported="true" android:name="app.zan1456.folio.MainActivity"
+        <activity android:exported="true" android:name="hu.ekrata.ellenorzoplusz.MainActivity"
             android:launchMode="singleTop" android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize"
@@ -51,7 +51,7 @@
 
         <!-- Listens for sync-request messages from the WearOS watch -->
         <service
-            android:name="app.zan1456.folio.wear.PhoneWearListenerService"
+            android:name="hu.ekrata.ellenorzoplusz.wear.PhoneWearListenerService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />

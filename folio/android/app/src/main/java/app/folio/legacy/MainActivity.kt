@@ -1,4 +1,4 @@
-package app.zan1456.folio
+package hu.ekrata.ellenorzoplusz
 
 import android.util.Log
 import com.google.android.gms.wearable.MessageClient
@@ -7,13 +7,13 @@ import com.google.android.gms.wearable.Wearable
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
-import app.zan1456.folio.live_activity.LiveLessonNotificationManager
-import app.zan1456.folio.wear.WearSyncManager
+import hu.ekrata.ellenorzoplusz.live_activity.LiveLessonNotificationManager
+import hu.ekrata.ellenorzoplusz.wear.WearSyncManager
 
 class MainActivity : FlutterActivity(), MessageClient.OnMessageReceivedListener {
 
-    private val LIVE_ACTIVITY_CHANNEL = "app.zan1456.folio/android_live_activity"
-    private val WEAR_CHANNEL = "app.zan1456.folio/wear_sync"
+    private val LIVE_ACTIVITY_CHANNEL = "hu.ekrata.ellenorzoplusz/android_live_activity"
+    private val WEAR_CHANNEL = "hu.ekrata.ellenorzoplusz/wear_sync"
     private val TAG = "FolioPhone.MainActivity"
 
     private var wearSync: WearSyncManager? = null

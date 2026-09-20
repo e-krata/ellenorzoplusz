@@ -1,4 +1,4 @@
-package app.zan1456.folio.wear
+package hu.ekrata.ellenorzoplusz.wear
 
 import android.os.Handler
 import android.os.Looper
@@ -20,7 +20,7 @@ class MainActivity : FlutterActivity(),
     DataClient.OnDataChangedListener,
     MessageClient.OnMessageReceivedListener {
 
-    private val CHANNEL = "app.zan1456.folio.wear/data"
+    private val CHANNEL = "hu.ekrata.ellenorzoplusz.wear/data"
     private val TAG = "FolioWear.MainActivity"
     private val PREFS = "folio_wear"
 

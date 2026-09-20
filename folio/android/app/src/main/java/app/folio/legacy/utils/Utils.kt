@@ -1,4 +1,4 @@
-package app.zan1456.folio.utils
+package hu.ekrata.ellenorzoplusz.utils
 
 import android.content.Context
 import android.net.ConnectivityManager

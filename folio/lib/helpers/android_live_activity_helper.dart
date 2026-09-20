@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:folio/api/providers/live_card_provider.dart';
 
 class AndroidLiveActivityHelper {
-  static const _channel = MethodChannel('app.zan1456.folio/android_live_activity');
+  static const _channel = MethodChannel('hu.ekrata.ellenorzoplusz/android_live_activity');
 
   static bool _active = false;
 

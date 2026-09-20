@@ -1,4 +1,4 @@
-package app.zan1456.folio.wear
+package hu.ekrata.ellenorzoplusz.wear
 
 import android.content.Context
 import android.os.Handler

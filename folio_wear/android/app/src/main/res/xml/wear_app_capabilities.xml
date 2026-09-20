@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wearableApp package="app.zan1456.folio.wear">
+<wearableApp package="hu.ekrata.ellenorzoplusz.wear">
     <versionCode>1</versionCode>
     <versionName>1.0</versionName>
     <capabilities>

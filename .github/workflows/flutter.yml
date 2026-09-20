@@ -35,6 +35,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -58,6 +64,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -102,6 +114,7 @@ jobs:
       - name: Create Android debug keystore
         run: |
           mkdir -p "$HOME/.android"
+
           if [ ! -f "$HOME/.android/debug.keystore" ]; then
             keytool -genkeypair \
               -v \
@@ -115,14 +128,32 @@ jobs:
               -dname "CN=Android Debug,O=Android,C=US"
           fi
 
-      - name: Build APK
-        run: flutter build apk --release--flavor github
+      - name: Clean Flutter build
+        run: flutter clean
+
+      - name: Get dependencies again
+        run: flutter pub get
+
+      - name: Build GitHub APK
+        run: flutter build apk --release --flavor github
+
+      - name: Show generated APKs
+        run: |
+          echo "Generated APK files:"
+          find build/app/outputs -type f -name "*.apk" -print
+
+      - name: Verify APK exists
+        run: |
+          if ! find build/app/outputs -type f -name "*.apk" | grep -q ".apk"; then
+            echo "ERROR: No APK was generated."
+            exit 1
+          fi
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: folio-android-apk
-          path: folio/build/app/outputs/flutter-apk/app-release.apk
+          name: ellenorzoplusz-android-apk
+          path: folio/build/app/outputs/**/*.apk
           if-no-files-found: error
           retention-days: 14
 
@@ -141,6 +172,9 @@ jobs:
           channel: stable
           cache: true
 
+      - name: Flutter version
+        run: flutter --version
+
       - name: Get dependencies
         run: flutter pub get
 
@@ -150,7 +184,7 @@ jobs:
       - name: Upload Web
         uses: actions/upload-artifact@v4
         with:
-          name: folio-web
+          name: ellenorzoplusz-web
           path: folio/build/web
           if-no-files-found: error
           retention-days: 14

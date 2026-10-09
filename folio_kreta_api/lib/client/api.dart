@@ -129,7 +129,7 @@ class BaseKreta {
 
   static const kretaIdp = KretaAPI.baseUrl;
 
-  static const kretaAdmin = "https://ujkreta.onrender.com";
+  static const kretaAdmin = "https://ujkreta.onrender.com/integration-kretamobile-api/v1/kommunikacio";
 
   static const kretaFiles = "https://files.e-kreta.hu";
 
@@ -202,19 +202,19 @@ class KretaApiEndpoints {
 
 class KretaAdminEndpoints {
   static const sendMessage =
-      "/integration-kretamobile-api/v1/kommunikacio/uzenetek";
+      "/uzenetek";
 
   static String messages(String endpoint) =>
-      "/api/v1/kommunikacio/postaladaelemek/$endpoint";
+      "/postaladaelemek/$endpoint";
 
   static String message(String id) =>
-      "/integration-kretamobile-api/v1/kommunikacio/postaladaelemek/$id";
+      "/postaladaelemek/$id";
 
   static const recipientCategories =
       "/api/v1/adatszotarak/cimzetttipusok";
 
   static const availableCategories =
-      "/api/v1/kommunikacio/cimezhetotipusok";
+      "/cimezhetotipusok";
 
   static const recipientTeachers =
       "/api/v1/kreta/alkalmazottak/tanar";
@@ -229,10 +229,10 @@ class KretaAdminEndpoints {
       "/api/v1/dokumentumok/uzenetek/$id";
 
   static const trashMessage =
-      "/api/v1/kommunikacio/postaladaelemek/kuka";
+      "/postaladaelemek/kuka";
 
   static const deleteMessage =
-      "/api/v1/kommunikacio/postaladaelemek/torles";
+      "/postaladaelemek/torles";
 
   static const editProfile =
       "/api/profilapi/saveprofildata";

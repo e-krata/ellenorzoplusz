@@ -51,7 +51,7 @@ class FilcAPI {
 
   // updates path to github
   static const releases =
-      "https://api.github.com/repos/Zan1456/folio/releases";
+      "https://api.github.com/repos/e-krata/ellenorzoplusz/releases";
 
   // theme sharing api
   static const themeShare = "$baseUrl/theme/";

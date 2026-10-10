@@ -2646,7 +2646,7 @@ class SettingsScreenState extends State<SettingsScreen>
                   color: AppColors.of(context).text.withValues(alpha: 0.95)),
               title: const Text("GitHub"),
               onPressed: () => launchUrl(
-                  Uri.parse("https://github.com/zan1456/folio"),
+                  Uri.parse("https://github.com/e-krata/ellenorzoplusz"),
                   mode: LaunchMode.externalApplication),
               borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(4.0), bottom: Radius.circular(4.0)),
